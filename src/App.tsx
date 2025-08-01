@@ -1,15 +1,12 @@
 import './App.css'
-import { Dialog } from './components/module/dialog'
- 
-import { Button } from './components/ui/button'
+import Layout from './layout/Layout'
 
 function App() {
 
   return (
-    <>
-     <Button variant='outline'>Click me </Button>
-     <Dialog />
-    </>
+    <main>
+    <Layout/>
+    </main>
   )
 }
 
