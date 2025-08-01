@@ -59,15 +59,15 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Order",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Report",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "Order Tracking",
           url: "#",
         },
       ],
@@ -78,15 +78,15 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: "Genesis",
+          title: "Product List",
           url: "#",
         },
         {
-          title: "Explorer",
+          title: "Create Product",
           url: "#",
         },
         {
-          title: "Quantum",
+          title: "Category & Brand ",
           url: "#",
         },
       ],
@@ -97,7 +97,7 @@ const data = {
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "Staff",
           url: "#",
         },
         {
