@@ -60,15 +60,15 @@ const data = {
       items: [
         {
           title: "Order",
-          url: "#",
+          url: "order",
         },
         {
           title: "Report",
-          url: "#",
+          url: "report",
         },
         {
           title: "Order Tracking",
-          url: "#",
+          url: "ordertracking",
         },
       ],
     },
@@ -78,16 +78,16 @@ const data = {
       icon: Bot,
       items: [
         {
-          title: "Product List",
-          url: "#",
+          title: "Create Product",
+          url: "createproduct",
         },
         {
-          title: "Create Product",
-          url: "#",
+          title: "Product List",
+          url: "productlist",
         },
         {
           title: "Category & Brand ",
-          url: "#",
+          url: "productcategory",
         },
       ],
     },
@@ -97,12 +97,12 @@ const data = {
       icon: BookOpen,
       items: [
         {
-          title: "Staff",
-          url: "#",
+          title: "Get Started",
+          url: "staffenroll",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Staff",
+          url: "staff",
         },
         {
           title: "Tutorials",
