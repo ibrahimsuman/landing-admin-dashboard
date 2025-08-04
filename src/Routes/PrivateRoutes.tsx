@@ -1,15 +1,10 @@
 
-import { Navigate, useLocation } from 'react-router-dom';
-
-const PrivateRoute = ({ children }) => {
-    const location = useLocation();
-
-
-    if (!user) {
-        return <Navigate state={{ from: location.pathname }} to="/login"></Navigate>
-    }
-
-    return children;
+const PrivateRoutes = () => {
+    return (
+        <div>
+            
+        </div>
+    );
 };
 
-export default PrivateRoute;
+export default PrivateRoutes;

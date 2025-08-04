@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+type TMockReportData = {
+    productId: string,
+    productName: string,
+    description: string,
+    customer: string,
+    purchases: number,
+  }
 
 // Static mock data
-const mockReportData = [
+const mockReportData :TMockReportData[] = [ 
   {
     productId: "P001",
     productName: "Tomato Seeds",
@@ -26,7 +34,7 @@ const mockReportData = [
 ];
 
 const Report = () => {
-  const [reportData, setReportData] = useState([]);
+  const [reportData, setReportData] = useState<TMockReportData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

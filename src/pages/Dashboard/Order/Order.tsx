@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const sampleOrders = [
   {
@@ -22,7 +22,7 @@ const sampleOrders = [
 const Order = () => {
   const [orders, setOrders] = useState(sampleOrders);
 
-  const handleStatusChange = (id, newStatus) => {
+  const handleStatusChange = (id:string, newStatus:string) => {
     setOrders(prev =>
       prev.map(order =>
         order.id === id ? { ...order, status: newStatus } : order
@@ -30,7 +30,7 @@ const Order = () => {
     );
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id:string) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
       setOrders(prev => prev.filter(order => order.id !== id));
     }
