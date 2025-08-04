@@ -25,7 +25,7 @@ export default function Layout() {
         {/* Main Content Area */}
         <SidebarInset className="flex flex-col flex-1 bg-gray-50 transition-all duration-300 ease-in-out">
           {/* Header */}
-          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-white px-4 shadow-sm transition-[height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <header className="flex fixed w-full top-0 h-16 shrink-0 items-center justify-between gap-2 border-b bg-white px-4 shadow-sm transition-[height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2">
               {/* Sidebar toggle button - always visible on small screens */}
               <SidebarTrigger className="-ml-1 md:hidden" />
@@ -52,7 +52,7 @@ export default function Layout() {
           </header>
 
           {/* Page Content */}
-          <main className="flex-1 overflow-auto p-4 md:p-6">
+          <main className="p-4 pt-18">
             <Outlet />
           </main>
         </SidebarInset>

@@ -34,14 +34,14 @@ const SignupForm = () => {
                 <ECInputField
                     name="email"
                     title="Email"
-                    placeholder="Enter email"
+                    placeholder=""
                     inputType="email"
                     control={form.control}
                 />
                 <ECInputField
                     name="password"
                     title="Enter password"
-                    placeholder="Enter password"
+                    placeholder=""
                     inputType="password"
                     control={form.control}
                 />

@@ -27,8 +27,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path:'/dashboard',
-        element: <div className="h-[550px] flex justify-center items-center text-4xl font-bold">
+        index: true,
+        element: <div className="h-[400px] flex justify-center items-center text-4xl font-bold">
           Welcome to Admin page
         </div>
       },
