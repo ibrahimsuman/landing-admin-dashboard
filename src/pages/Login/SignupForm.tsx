@@ -1,7 +1,3 @@
-// import axios from "axios";
-import Swal from "sweetalert2";
-
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -13,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 import { useForm, type Control, type FieldPath } from "react-hook-form";
 import { z } from "zod";
 
@@ -31,46 +28,13 @@ const SignupForm = () => {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // Check for admin credentials first
-        if (values.email === "admin@gmail.com" && values.password === "12345678") {
-
-            localStorage.setItem("jwtToken", "admin_dummy_token");
-            Swal.fire({
-                icon: "success",
-                title: "Login Successful",
-                text: "Welcome admin! Redirecting to dashboard...",
-            });
-            // Redirect to dashboard page (example using window.location)
-            window.location.href = "/dashboard";
-            return;
-        }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => { 
+        console.log(values)
     }
 
 
 
-    //   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    //     try {
-    //       const response = await axios.post("http://localhost:3000/", values);
 
-    //       const { token } = response.data;
-    //       localStorage.setItem("jwtToken", token);
-
-    //       Swal.fire({
-    //         icon: "success",
-    //         title: "Login Successful",
-    //         text: response.data?.message || "You have logged in successfully!",
-    //       });
-    //     } catch (err) {
-    //       const error = err as { response?: { data?: { message?: string } } };
-
-    //       Swal.fire({
-    //         icon: "error",
-    //         title: "Login Failed",
-    //         text: error.response?.data?.message || "An unexpected error occurred.",
-    //       });
-    //     }
-    //   };
 
     return (
         <Form {...form}>
