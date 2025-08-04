@@ -1,16 +1,10 @@
+import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";
 import {
     Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm, type Control, type FieldPath } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 
@@ -33,25 +27,23 @@ const SignupForm = () => {
     }
 
 
-
-
-
+ 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <SignupFormField
+                <ECInputField
                     name="email"
-                    label="Email"
+                    title="Email"
                     placeholder="Enter email"
                     inputType="email"
-                    formControl={form.control}
+                    control={form.control}
                 />
-                <SignupFormField
+                <ECInputField
                     name="password"
-                    label="Password"
+                    title="Enter password"
                     placeholder="Enter password"
                     inputType="password"
-                    formControl={form.control}
+                    control={form.control}
                 />
 
                 <Button type="submit" className="w-full cursor-pointer mt-4">
@@ -62,36 +54,5 @@ const SignupForm = () => {
     );
 };
 
-interface SignupFormFieldProps {
-    name: FieldPath<z.infer<typeof formSchema>>;
-    label: string;
-    placeholder: string;
-    inputType?: string;
-    formControl: Control<z.infer<typeof formSchema>>;
-}
-
-const SignupFormField: React.FC<SignupFormFieldProps> = ({
-    name,
-    label,
-    placeholder,
-    inputType = "text",
-    formControl,
-}) => {
-    return (
-        <FormField
-            control={formControl}
-            name={name}
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel>{label}</FormLabel>
-                    <FormControl>
-                        <Input placeholder={placeholder} type={inputType} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
-    );
-};
 
 export default SignupForm;

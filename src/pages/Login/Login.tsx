@@ -6,14 +6,10 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import SignupForm from "./SignupForm"
-import { cn } from "@/lib/utils"
 
-export function Login({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function Login() {
   return (
-    <div className={cn("flex flex-col  mx-auto h-screen items-center justify-center", className)} {...props}>
+    <div className="flex flex-col  mx-auto h-screen items-center justify-center" >
       <Card className="max-w-lg w-full">
         <CardHeader>
           <CardTitle>Login to Admin Account</CardTitle>
@@ -21,12 +17,8 @@ export function Login({
             Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
-        <CardContent>
-
-
-         <SignupForm></SignupForm> 
-
-
+        <CardContent> 
+         <SignupForm /> 
         </CardContent>
       </Card>
     </div>
