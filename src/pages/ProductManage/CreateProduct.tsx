@@ -1,7 +1,15 @@
 import { useState } from "react";
 
+type Product = {
+  image: string;
+  title: string;
+  description: string;
+  price: string;
+  category: string;
+};
+
 const CreateProduct = () => {
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<Product>({
     image: "",
     title: "",
     description: "",
@@ -9,12 +17,14 @@ const CreateProduct = () => {
     category: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Product submitted:", product);
     // You can POST this to your backend API here

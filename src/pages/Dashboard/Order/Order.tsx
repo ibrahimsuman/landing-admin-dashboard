@@ -37,7 +37,7 @@ const Order = () => {
   };
 
   return (
-    <div className="">
+    <div className="p-4 md:p-6 bg-white rounded-xl shadow-sm min-h-[calc(100vh-4rem)]">
       <h2 className="text-xl font-bold mb-4">Manage Orders</h2>
       <div className="-x-auto">
         <table className="w-full table-auto border">
