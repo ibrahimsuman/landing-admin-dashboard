@@ -25,9 +25,6 @@ const SignupForm = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => { 
         console.log(values)
     }
-
-
- 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -45,7 +42,6 @@ const SignupForm = () => {
                     inputType="password"
                     control={form.control}
                 />
-
                 <Button type="submit" className="w-full cursor-pointer mt-4">
                     Sign In
                 </Button>

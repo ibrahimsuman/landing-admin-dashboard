@@ -12,8 +12,9 @@ import {
   SquareTerminal,
 } from "lucide-react"
 import * as React from "react"
+import { Home, ChevronRight } from 'lucide-react';
 
- 
+
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +26,7 @@ import { NavMain } from "./nav-main"
 import { NavProjects } from "./nav-projects"
 import { NavUser } from "./nav-user"
 import { TeamSwitcher } from "./team-switcher"
+import { Link } from "react-router-dom"
 
 // This is sample data.
 const data = {
@@ -162,6 +164,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
+        <div>
+      <Link
+        to="/dashboard"
+        className="flex items-center justify-between gap-2 px-4 py-2 hover:text-blue-600 transition-all"
+      >
+        <div className="flex items-center gap-2">
+          <Home size={18} />
+          Home
+        </div>
+        <ChevronRight size={18} />
+      </Link>
+    </div>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />

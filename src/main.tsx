@@ -15,6 +15,7 @@ import ProductCategory from './pages/ProductManage/ProductCategory';
 import Staff from './pages/StaffManage/Staff';
 import StaffEnroll from './pages/StaffManage/StaffEnroll';
 import { Login } from './pages/Login/Login';
+import DashMain from './pages/Dashboard/DashMain/DashMain';
 
 const router = createBrowserRouter([
   {
@@ -28,9 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div className="h-[400px] flex justify-center items-center text-4xl font-bold">
-          Welcome to Admin page
-        </div>
+        element:<DashMain></DashMain>
       },
       {
         path: 'order',
