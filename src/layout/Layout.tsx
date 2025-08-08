@@ -1,19 +1,11 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "./LayoutComponents/app-sidebar";
 import { Outlet } from "react-router-dom";
+import { AppSidebar } from "./LayoutComponents/app-sidebar";
 
 export default function Layout() {
   return (
@@ -32,18 +24,7 @@ export default function Layout() {
               <SidebarTrigger className="-ml-1 hidden md:inline-flex" />
 
               <Separator orientation="vertical" className="mr-2 h-4" />
-
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
+              <h1 className="uppercase text-sm font-medium">Welcome & get update your business</h1> 
             </div>
           </header>
 

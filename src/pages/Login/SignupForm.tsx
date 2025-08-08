@@ -8,6 +8,7 @@ import { useUserStore } from "@/store/useUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from 'js-cookie';
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 
@@ -17,25 +18,29 @@ const formSchema = z.object({
 });
 
 const SignupForm = () => {
-    const axiosPublic = useAxiosPublic() 
-    const setUser = useUserStore((state)=>state.setUser)
+    const axiosPublic = useAxiosPublic()
+    const setUser = useUserStore((state) => state.setUser)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "admin.test@gmail.com",
             password: "password123",
         },
-    }); 
+    });
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const data = {
             email: values.email,
             password: values.password
         }
         try {
-            const response  = await axiosPublic.post(`/auth/login-admin`, data, { withCredentials: true })
-            const token = response.data.data.token;
-            setUser(response.data.data)
-            Cookies.set('accessToken', token, { expires: 7, secure: true, sameSite: 'Strict' });
+            const response = await axiosPublic.post(`/auth/login-admin`, data, { withCredentials: true })
+            console.log(response)
+            if (response.data.success) {
+                const token = response.data.data.token;
+                setUser(response.data.data)
+                Cookies.set('accessToken', token, { expires: 7, secure: true, sameSite: 'Strict' });
+                toast.success("Login successfully")
+            }
 
         } catch (error: any) {
             console.log(error.message || "Login fail")

@@ -1,21 +1,22 @@
 import React, { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import './index.css';
+import PrivetRoute from './PrivetRoute/PrivetRoute';
 
 // lazy imports
 const Login = React.lazy(() => import('./pages/Login/Login'));
+const ProductCategoryAndBrand = React.lazy(() => import('./pages/ProductManage/ProductCategoryAndBrand/ProductCategoryAndBrand'));
 const Layout = React.lazy(() => import('./layout/Layout'));
 const DashMain = React.lazy(() => import('./pages/Dashboard/DashMain/DashMain'));
 const Order = React.lazy(() => import('./pages/Dashboard/Order/Order'));
 const Report = React.lazy(() => import('./pages/Dashboard/Report/Report'));
 const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderTracking/OrderTracking'));
 const CreateProduct = React.lazy(() => import('./pages/ProductManage/CreateProduct'));
-const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList'));
-const ProductCategory = React.lazy(() => import('./pages/ProductManage/ProductCategory'));
+const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList')); 
 const Staff = React.lazy(() => import('./pages/StaffManage/Staff'));
 const StaffEnroll = React.lazy(() => import('./pages/StaffManage/StaffEnroll'));
-
 // router definition
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Layout />,
+    element: <PrivetRoute><Layout /></PrivetRoute>,
     children: [
       { index: true, element: <DashMain /> },
       { path: 'order', element: <Order /> },
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       { path: 'ordertracking', element: <OrderTracking /> },
       { path: 'createproduct', element: <CreateProduct /> },
       { path: 'productlist', element: <ProductList /> },
-      { path: 'productcategory', element: <ProductCategory /> },
+      { path: 'productcategory', element: <ProductCategoryAndBrand /> },
       { path: 'staff', element: <Staff /> },
       { path: 'staffenroll', element: <StaffEnroll /> },
     ],
@@ -50,6 +51,7 @@ createRoot(document.getElementById('root')!).render(
       }
     >
       <RouterProvider router={router} />
+      <Toaster position='top-right' />
     </Suspense>
   </StrictMode>
 );

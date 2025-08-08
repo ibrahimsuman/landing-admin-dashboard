@@ -1,18 +1,15 @@
 
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
-import * as React from "react"
-import { Home, ChevronRight } from 'lucide-react';
+  Zap
+} from "lucide-react";
+import * as React from "react";
 
 
 import {
@@ -21,37 +18,14 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
-import { NavUser } from "./nav-user"
-import { TeamSwitcher } from "./team-switcher"
-import { Link } from "react-router-dom"
+} from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
+import { NavMain } from "./nav-main";
+import { NavProjects } from "./nav-projects";
+import { NavUser } from "./nav-user";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Order Manage",
@@ -159,29 +133,25 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const navigate = useNavigate()
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+      <div onClick={()=>navigate("/dashboard")} className="flex items-center  gap-2 cursor-pointer">
+      <Zap className="text-white bg-primary w-6 h-6 p-1 rounded-sm"/>
+      <div className="grid flex-1 text-left text-sm leading-tight hidden xs:block">
+        <span className="truncate font-medium text-secondary uppercase text-md">Company Name</span> 
+      </div>
+    </div>
       </SidebarHeader>
         <div>
-      <Link
-        to="/dashboard"
-        className="flex items-center justify-between gap-2 px-4 py-2 hover:text-blue-600 transition-all"
-      >
-        <div className="flex items-center gap-2">
-          <Home size={18} />
-          Home
-        </div>
-        <ChevronRight size={18} />
-      </Link>
     </div>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser  />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

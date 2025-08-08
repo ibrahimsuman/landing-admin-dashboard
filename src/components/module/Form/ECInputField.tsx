@@ -6,6 +6,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import type { Control, RegisterOptions } from 'react-hook-form';
@@ -23,10 +24,6 @@ interface ECInputFieldProps {
   inputType?: string;
 }
 
-const labelStyle =
-  'absolute cursor-text bg-white overflow-hidden  left-0 -top-3 !text-sm bg-inherit mx-1 px-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3 peer-focus:-top-3  peer-focus:text-[12px] transition-all';
-const inputBaseStyle =
-  'peer bg-transparent h-12 rounded-[4px] placeholder-transparent px-2 focus:outline-none border';
 
 const ECInputField: React.FC<ECInputFieldProps> = ({
   name,
@@ -47,8 +44,11 @@ const ECInputField: React.FC<ECInputFieldProps> = ({
       render={({ field, fieldState }) => (
         <FormItem className={cn('w-full', wrapClassName)}>
           <FormControl>
-            <div className="bg-white rounded-4px">
+            <div className=" rounded-4px">
               <div className="relative bg-inherit">
+                  <Label htmlFor={name} className="mb-2">
+                  {title}
+                </Label>
                 <Input
                   type={inputType || 'text'}
                   onChange={(e) => {
@@ -61,8 +61,7 @@ const ECInputField: React.FC<ECInputFieldProps> = ({
                   onBlur={field.onBlur}
                   ref={field.ref}
                   id={name}
-                  className={cn(
-                    inputBaseStyle,
+                  className={cn( "p-2",
                     fieldState.error
                       ? 'border-red-500 focus:ring-red-500'
                       : 'border-gray-300 focus:ring-primary',
@@ -70,11 +69,7 @@ const ECInputField: React.FC<ECInputFieldProps> = ({
                   )}
                   placeholder={placeholder}
                 />
-
-
-                <label htmlFor={name} className={labelStyle}>
-                  {title}
-                </label>
+              
               </div>
             </div>
           </FormControl>
