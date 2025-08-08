@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-// Static categories (1–12)
+// Static categories
 const categories = [
   "Seeds", "Tools", "Fertilizer", "Pots", "Soil", "Planters",
   "Watering", "Decor", "Lights", "Compost", "Herbs", "Accessories"
@@ -32,11 +32,25 @@ const allProducts = [
     price: 5.5,
     category: "Compost",
   },
-  // ...add more with other categories
 ];
 
 const ProductList = () => {
   const [selectedCategory, setSelectedCategory] = useState("Seeds");
+
+  // Preload LCP image dynamically
+  useEffect(() => {
+    const firstProduct = allProducts.find(
+      (p) => p.category === selectedCategory
+    );
+    if (firstProduct) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = firstProduct.image;
+      link.fetchPriority = "high";
+      document.head.appendChild(link);
+    }
+  }, [selectedCategory]);
 
   const filteredProducts = allProducts.filter(
     (product) => product.category === selectedCategory
@@ -52,9 +66,8 @@ const ProductList = () => {
           <div
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`cursor-pointer border rounded-lg p-4 text-center shadow-sm hover:bg-blue-50 ${
-              selectedCategory === cat ? "bg-blue-100 border-blue-500" : ""
-            }`}
+            className={`cursor-pointer border rounded-lg p-4 text-center shadow-sm hover:bg-blue-50 ${selectedCategory === cat ? "bg-blue-100 border-blue-500" : ""
+              }`}
           >
             <p className="font-medium text-sm">{cat}</p>
           </div>
@@ -70,7 +83,7 @@ const ProductList = () => {
         <p className="text-gray-500">No products found in this category.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {filteredProducts.map((product) => (
+          {filteredProducts.map((product, index) => (
             <div
               key={product.id}
               className="border rounded-lg p-4 bg-white shadow-sm"
@@ -78,7 +91,11 @@ const ProductList = () => {
               <img
                 src={product.image}
                 alt={product.title}
+                width={400}
+                height={300}
                 className="w-full h-40 object-cover rounded-md mb-3"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
               />
               <h3 className="font-semibold">{product.title}</h3>
               <p className="text-sm text-gray-600 mb-2">

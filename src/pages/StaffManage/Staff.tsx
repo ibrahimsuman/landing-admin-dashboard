@@ -10,21 +10,27 @@ const initialStaffList = [
     name: "Alice Johnson",
     email: "alice@store.com",
     role: "Admin",
-    img: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    image: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    width: 440,
+    height: 440,
   },
   {
     id: 2,
     name: "Bob Smith",
     email: "bob@store.com",
     role: "Manager",
-    img: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    image: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    width: 440,
+    height: 440,
   },
   {
     id: 3,
     name: "Charlie Lee",
     email: "charlie@store.com",
     role: "Support",
-    img: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    image: "https://teneo-website.imgix.net/2018/11/Tim-Burt-Headshot.jpg?auto=format&fit=crop&h=440&ixlib=php-4.1.0&w=440&s=fae09cfd64291e1cdb1779d359fbd56e",
+    width: 440,
+    height: 440,
   },
 ];
 
@@ -48,15 +54,20 @@ const Staff = () => {
             <p className="text-sm text-gray-500">No {role.toLowerCase()}s enrolled yet.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {members.map((staff) => (
+              {members.map((staff, index) => (
                 <div
                   key={staff.id}
                   className="bg-white border rounded-lg overflow-hidden shadow hover:shadow-md transition"
                 >
                   <div className="p-4">
                     <img
-                      src={staff.img}
+                      src={staff.image}
                       alt={staff.name}
+                      width={staff.width}
+                      height={staff.height}
+                      loading="eager"
+                      fetchPriority={index === 0 ? "high" : "auto"}
+
                       className="w-full h-48 object-cover rounded-md"
                     />
                   </div>
