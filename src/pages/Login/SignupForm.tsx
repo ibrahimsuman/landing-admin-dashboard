@@ -17,17 +17,15 @@ const formSchema = z.object({
 });
 
 const SignupForm = () => {
-    const axiosPublic = useAxiosPublic()
-    const {setUser, user} = useUserStore()
-    // const setUser = useUserStore((state)=>state.setUser)
+    const axiosPublic = useAxiosPublic() 
+    const setUser = useUserStore((state)=>state.setUser)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "admin.test@gmail.com",
             password: "password123",
         },
-    });
-console.log(user)
+    }); 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const data = {
             email: values.email,
