@@ -1,6 +1,7 @@
-import useAxiosSecure from "@/API-axios/axiosSecure";
+import { useCategory } from "@/action/category/useCategory";
 import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";
+import { hasUppercase } from "@/utils/uppercaseChecker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,8 +14,11 @@ const categorySchema = z.object({
 
 type CategoryForm = z.infer<typeof categorySchema>;
 
-const SingleCategoryForm = () => {
-  const axiosSecure = useAxiosSecure();
+const SingleCategoryForm = () => { 
+  const { createCategoryMutation } = useCategory();
+
+  const { mutate, isPending } = createCategoryMutation;
+
 
   const form = useForm<CategoryForm>({
     resolver: zodResolver(categorySchema),
@@ -24,21 +28,29 @@ const SingleCategoryForm = () => {
     },
   });
 
-  const { control, handleSubmit, formState } = form;
-  const { errors } = formState;
+  const { control, handleSubmit } = form;
 
-  const onSubmit = async (data: CategoryForm) => {
-    try {
-      const res = await axiosSecure.post("/categories", data);
-      if (res?.data?.success) {
-         toast.success("Category create successfully")
-        
-     }
-    } catch (error: any) {
-      console.error("Failed to save category", error);
+
+
+  const onSubmit = (data: CategoryForm) => {
+    if (data.title.toLowerCase() !== data.value.toLowerCase()) {
+      return toast.error("Title & value must match");
     }
-  };
+    if (hasUppercase(data.value)) {
+      return toast.error("Value must be lowercase");
+    }
 
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Category created successfully");
+        form.reset();
+      },
+      onError: (error: any) => {
+        const errMsg = error.response?.data?.message || "Something went wrong";
+        toast.error(errMsg);
+      },
+    });
+  }
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -48,7 +60,6 @@ const SingleCategoryForm = () => {
           title="Category title"
           placeholder="e.g. Mobile"
         />
-        {errors.title && <p className="text-red-600">{errors.title.message}</p>}
 
         <ECInputField
           control={control}
@@ -56,11 +67,14 @@ const SingleCategoryForm = () => {
           title="Category value"
           placeholder="e.g. mobile"
         />
-        {errors.value && <p className="text-red-600">{errors.value.message}</p>}
-
-        <Button type="submit" className="w-full cursor-pointer mt-4">
-          Save Category
+        {isPending ? <Button type="button" className="w-full cursor-pointer mt-4">
+          loading...
         </Button>
+          :
+          <Button type="submit" className="w-full cursor-pointer mt-4">
+            Create Category
+          </Button>}
+        <p className="text-xs text-muted-foreground text-center">Title and value must match Value must be lowercase</p>
       </form>
     </FormProvider>
   );

@@ -1,3 +1,7 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import React, { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -14,7 +18,7 @@ const Order = React.lazy(() => import('./pages/Dashboard/Order/Order'));
 const Report = React.lazy(() => import('./pages/Dashboard/Report/Report'));
 const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderTracking/OrderTracking'));
 const CreateProduct = React.lazy(() => import('./pages/ProductManage/CreateProduct'));
-const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList')); 
+const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList'));
 const Staff = React.lazy(() => import('./pages/StaffManage/Staff'));
 const StaffEnroll = React.lazy(() => import('./pages/StaffManage/StaffEnroll'));
 // router definition
@@ -39,7 +43,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
+const queryClient = new QueryClient()
 // render with one Suspense wrapping RouterProvider for better fallback UI and FCP visibility
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -50,7 +54,9 @@ createRoot(document.getElementById('root')!).render(
         </div>
       }
     >
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}> 
+        <RouterProvider router={router} />
+      </QueryClientProvider> 
       <Toaster position='top-right' />
     </Suspense>
   </StrictMode>

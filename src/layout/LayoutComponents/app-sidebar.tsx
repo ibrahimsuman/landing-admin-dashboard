@@ -17,6 +17,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router-dom";
@@ -137,21 +138,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-      <div onClick={()=>navigate("/dashboard")} className="flex items-center  gap-2 cursor-pointer">
-      <Zap className="text-white bg-primary w-6 h-6 p-1 rounded-sm"/>
-      <div className="grid flex-1 text-left text-sm leading-tight hidden xs:block">
-        <span className="truncate font-medium text-secondary uppercase text-md">Company Name</span> 
-      </div>
-    </div>
+        <SidebarMenuButton
+          onClick={() => navigate("/dashboard")}
+          size="lg"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        >
+          <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <Zap className="size-4" />
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium">Company Name</span>
+          </div>
+
+        </SidebarMenuButton>
       </SidebarHeader>
-        <div>
-    </div>
+      <div>
+      </div>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser  />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
