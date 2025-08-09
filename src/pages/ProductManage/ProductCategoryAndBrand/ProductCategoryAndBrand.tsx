@@ -1,3 +1,4 @@
+import CategoryAndBrandList from "./CategoryAndBrandList";
 import ProductCategory from "./ProductCategory";
 
 
@@ -13,7 +14,7 @@ export default function ProductCategoryAndBrand() {
         </div>
       </div>
       <div>
-        
+        <CategoryAndBrandList />
       </div>
     </div>
   )
