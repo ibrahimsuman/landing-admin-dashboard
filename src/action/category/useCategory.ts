@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCategoryService } from "./categoryService";
 
 export const useCategory = () => {
@@ -11,6 +11,10 @@ export const useCategory = () => {
       queryClient.invalidateQueries({ queryKey: ["category"] });
     },
   });
+  const getCategoryQuery = useQuery({
+    queryKey: ["category"],
+    queryFn: categoryService.getCategory,
+  });
 
-  return { createCategoryMutation };
+  return { createCategoryMutation, getCategoryQuery };
 };

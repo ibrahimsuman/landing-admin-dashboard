@@ -1,4 +1,4 @@
-import { useCategory } from "@/action/category/useCategory";
+import { useBrand } from "@/action/category/useBrand";
 import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";
 import { hasUppercase } from "@/utils/uppercaseChecker";
@@ -7,23 +7,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-const categorySchema = z.object({
+const brandSchema = z.object({
   title: z.string().min(1, "Title is required"),
   value: z.string().min(1, "Value is required"),
 });
 
-type CategoryForm = z.infer<typeof categorySchema>;
+type BrandForm = z.infer<typeof brandSchema>;
 
-const SingleCategoryForm = () => { 
-  const { createCategoryMutation, getCategoryQuery } = useCategory();
+const BrandForm = () => {
+  const { createBrandMutation } = useBrand();
+  const { mutate, isPending } = createBrandMutation;
 
-  const { mutate, isPending } = createCategoryMutation;
-
- const {data } = getCategoryQuery;
- console.log(data);
-
-  const form = useForm<CategoryForm>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<BrandForm>({
+    resolver: zodResolver(brandSchema),
     defaultValues: {
       title: "",
       value: "",
@@ -32,9 +28,7 @@ const SingleCategoryForm = () => {
 
   const { control, handleSubmit } = form;
 
-
-
-  const onSubmit = (data: CategoryForm) => {
+  const onSubmit = (data: BrandForm) => {
     if (data.title.toLowerCase() !== data.value.toLowerCase()) {
       return toast.error("Title & value must match");
     }
@@ -44,7 +38,7 @@ const SingleCategoryForm = () => {
 
     mutate(data, {
       onSuccess: () => {
-        toast.success("Category created successfully");
+        toast.success("Brand created successfully");
         form.reset();
       },
       onError: (error: any) => {
@@ -52,34 +46,38 @@ const SingleCategoryForm = () => {
         toast.error(errMsg);
       },
     });
-  }
+  };
+
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <ECInputField
           control={control}
           name="title"
-          title="Category title"
-          placeholder="e.g. Mobile"
+          title="Brand title"
+          placeholder="e.g. Apple"
         />
-
         <ECInputField
           control={control}
           name="value"
-          title="Category value"
-          placeholder="e.g. mobile"
+          title="Brand value"
+          placeholder="e.g. apple"
         />
-        {isPending ? <Button type="button" className="w-full cursor-pointer mt-4">
-          loading...
-        </Button>
-          :
+        {isPending ? (
+          <Button type="button" className="w-full cursor-pointer mt-4">
+            loading...
+          </Button>
+        ) : (
           <Button type="submit" className="w-full cursor-pointer mt-4">
-            Create Category
-          </Button>}
-        <p className="text-xs text-muted-foreground text-center">Title and value must match Value must be lowercase</p>
+            Create Brand
+          </Button>
+        )}
+        <p className="text-xs text-muted-foreground text-center">
+          Title and value must match & must be lowercase
+        </p>
       </form>
     </FormProvider>
   );
 };
 
-export default SingleCategoryForm;
+export default BrandForm;

@@ -21,7 +21,6 @@ function Login() {
   }, [user, navigate]);
 
   if (user !== null) {
-    // optionally return null or a loader while redirecting
     return null;
   }
   return (
