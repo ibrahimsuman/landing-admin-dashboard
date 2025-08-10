@@ -13,9 +13,9 @@ const invoices = [
 
 const CategoryAndBrandList = () => {
   return (
-    <div className="max-w-md mx-auto border mt-8 rounded-md p-4">
+    <div className=" border mt-4 rounded-md p-4">
       <Tabs defaultValue="category" className="text-center">
-        <TabsList className="w-full flex justify-center gap-2">
+        <TabsList className="w-full flex justify-center gap-2 bg-primary/10">
           <TabsTrigger value="category">Category</TabsTrigger>
           <TabsTrigger value="brand">Brand</TabsTrigger>
         </TabsList>
@@ -29,6 +29,7 @@ const CategoryAndBrandList = () => {
               <TableRow>
                 <TableHead className="text-center">Category</TableHead>
                 <TableHead className="text-center">Product</TableHead>
+                <TableHead className="text-center">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -39,6 +40,9 @@ const CategoryAndBrandList = () => {
                   </TableCell>
                   <TableCell className="text-center">
                     {invoice.paymentStatus}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    Delete
                   </TableCell>
                 </TableRow>
               ))}
