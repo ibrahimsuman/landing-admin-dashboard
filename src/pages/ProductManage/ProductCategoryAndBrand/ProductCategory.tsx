@@ -16,7 +16,6 @@ type CategoryForm = z.infer<typeof categorySchema>;
 
 const SingleCategoryForm = () => { 
   const { createCategoryMutation, getCategoryQuery } = useCategory();
-
   const { mutate, isPending } = createCategoryMutation;
 
  const {data } = getCategoryQuery;

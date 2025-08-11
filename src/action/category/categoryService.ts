@@ -7,8 +7,8 @@ export const useCategoryService = () => {
     const res = await axiosSecure.post("/categories", data);
     return res;
   };
-  const getCategory = async (data: any) => {
-    const res = await axiosSecure.post("/users/all-user", data);
+  const getCategory = async () => {
+    const res = await axiosSecure.get("/categories");
     return res;
   };
 

@@ -1,4 +1,4 @@
-import { useBrand } from "@/action/category/useBrand";
+import { useBrand } from "@/action/Brand/useBrand";
 import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";
 import { hasUppercase } from "@/utils/uppercaseChecker";

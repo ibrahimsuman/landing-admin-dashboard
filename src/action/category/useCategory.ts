@@ -1,9 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCategoryService } from "./categoryService";
+import useAxiosSecure from "@/API-axios/axiosSecure";
+
+
+export type TCategory = {
+  title: string;
+  value: string;
+} ;
 
 export const useCategory = () => {
   const categoryService = useCategoryService();
   const queryClient = useQueryClient();
+    const axiosSecure = useAxiosSecure();
+
 
   const createCategoryMutation = useMutation({
     mutationFn: categoryService.createCategory,
@@ -13,7 +22,7 @@ export const useCategory = () => {
   });
   const getCategoryQuery = useQuery({
     queryKey: ["category"],
-    queryFn: categoryService.getCategory,
+    queryFn: async ()=> await axiosSecure.get("/categories")
   });
 
   return { createCategoryMutation, getCategoryQuery };

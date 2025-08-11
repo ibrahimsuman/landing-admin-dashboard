@@ -1,3 +1,4 @@
+import { useCategory, type TCategory } from '@/action/category/useCategory';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -11,10 +12,20 @@ const invoices = [
   { invoice: "INV007", paymentStatus: "Unpaid", totalAmount: "$300.00", paymentMethod: "Credit Card" },
 ];
 
+
 const CategoryAndBrandList = () => {
+   const { getCategoryQuery } = useCategory();
+  
+   const {data:catagoryData, isLoading } = getCategoryQuery;
+   if (isLoading) {
+    return 'loading'
+    
+   }
+   console.log(catagoryData?.data?.data);
+
   return (
-    <div className=" border mt-4 rounded-md p-4">
-      <Tabs defaultValue="category" className="text-center">
+    <div className=" border mt-4 rounded-md p-4  w-full md:w-1/2">
+      <Tabs defaultValue="category" className="text-center ">
         <TabsList className="w-full flex justify-center gap-2 bg-primary/10">
           <TabsTrigger value="category">Category</TabsTrigger>
           <TabsTrigger value="brand">Brand</TabsTrigger>
@@ -33,13 +44,13 @@ const CategoryAndBrandList = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {invoices.map((invoice) => (
-                <TableRow key={invoice.invoice}>
+              {catagoryData?.data.data.map((cat:TCategory) => (
+                <TableRow key={cat.title}>
                   <TableCell className="font-medium text-center">
-                    {invoice.invoice}
+                    {cat.title}
                   </TableCell>
                   <TableCell className="text-center">
-                    {invoice.paymentStatus}
+                    {cat.value}
                   </TableCell>
                   <TableCell className="text-center">
                     Delete
