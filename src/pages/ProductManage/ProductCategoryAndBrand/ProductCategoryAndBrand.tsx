@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import CategoryAndBrandList from "./CategoryAndBrandList";
-import ProductCategory from "./ProductCategory";
+import SingleBrandForm from "./SingleBrandForm";
+import SingleCategoryForm from "./SingleCategoryForm";
 
 
 export default function ProductCategoryAndBrand() {
@@ -22,7 +23,7 @@ export default function ProductCategoryAndBrand() {
               <DialogHeader>
                 <DialogTitle>Create a new category</DialogTitle>
               </DialogHeader> 
-              <ProductCategory /> 
+              <SingleCategoryForm /> 
               <DialogClose asChild>
                 <Button 
                   aria-label="Close"
@@ -45,7 +46,7 @@ export default function ProductCategoryAndBrand() {
               <DialogHeader>
                 <DialogTitle>Create a new brand</DialogTitle>
               </DialogHeader> 
-              <ProductCategory /> 
+              <SingleBrandForm/>
               <DialogClose asChild>
                 <Button 
                   aria-label="Close"

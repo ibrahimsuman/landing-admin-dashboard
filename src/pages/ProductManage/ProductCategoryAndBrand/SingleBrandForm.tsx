@@ -14,9 +14,12 @@ const brandSchema = z.object({
 
 type BrandForm = z.infer<typeof brandSchema>;
 
-const BrandForm = () => {
-  const { createBrandMutation } = useBrand();
+const SingleBrandForm = () => {
+  const { createBrandMutation, getBrandQuery } = useBrand();
   const { mutate, isPending } = createBrandMutation;
+
+  const { data } = getBrandQuery;
+  console.log("Brands:", data);
 
   const form = useForm<BrandForm>({
     resolver: zodResolver(brandSchema),
@@ -55,29 +58,32 @@ const BrandForm = () => {
           control={control}
           name="title"
           title="Brand title"
-          placeholder="e.g. Apple"
+          placeholder="e.g. Samsung"
         />
+
         <ECInputField
           control={control}
           name="value"
           title="Brand value"
-          placeholder="e.g. apple"
+          placeholder="e.g. samsung"
         />
+
         {isPending ? (
           <Button type="button" className="w-full cursor-pointer mt-4">
-            loading...
+            Loading...
           </Button>
         ) : (
           <Button type="submit" className="w-full cursor-pointer mt-4">
             Create Brand
           </Button>
         )}
+
         <p className="text-xs text-muted-foreground text-center">
-          Title and value must match & must be lowercase
+          Title and value must match. Value must be lowercase.
         </p>
       </form>
     </FormProvider>
   );
 };
 
-export default BrandForm;
+export default SingleBrandForm;

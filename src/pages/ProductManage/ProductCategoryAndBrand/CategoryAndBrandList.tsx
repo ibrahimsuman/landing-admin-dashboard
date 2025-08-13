@@ -17,16 +17,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Trash } from 'lucide-react';
-
-const invoices = [
-  { invoice: "INV001", paymentStatus: "Paid", totalAmount: "$250.00", paymentMethod: "Credit Card" },
-  { invoice: "INV002", paymentStatus: "Pending", totalAmount: "$150.00", paymentMethod: "PayPal" },
-  { invoice: "INV003", paymentStatus: "Unpaid", totalAmount: "$350.00", paymentMethod: "Bank Transfer" },
-  { invoice: "INV004", paymentStatus: "Paid", totalAmount: "$450.00", paymentMethod: "Credit Card" },
-  { invoice: "INV005", paymentStatus: "Paid", totalAmount: "$550.00", paymentMethod: "PayPal" },
-  { invoice: "INV006", paymentStatus: "Pending", totalAmount: "$200.00", paymentMethod: "Bank Transfer" },
-  { invoice: "INV007", paymentStatus: "Unpaid", totalAmount: "$300.00", paymentMethod: "Credit Card" },
-];
+import { useBrand, type TBrand } from '@/action/Brand/useBrand';
 
 function DeleteCategoryDialog({
   categoryId,
@@ -49,7 +40,7 @@ function DeleteCategoryDialog({
 
   <AlertDialogContent className="flex flex-col items-center justify-center text-center">
     <AlertDialogHeader className="flex flex-col items-center justify-center">
-      <AlertDialogTitle className='text-secondary'>
+      <AlertDialogTitle className='text-red-600'>
         Are you sure you want to delete?
       </AlertDialogTitle>
       <AlertDialogDescription>
@@ -74,10 +65,15 @@ function DeleteCategoryDialog({
 
 const CategoryAndBrandList = () => {
   const { getCategoryQuery, deleteCategoryMutation } = useCategory();
+  const {getBrandQuery, deleteBrandMutation} = useBrand();
 
-  const { data: catagoryData, isLoading } = getCategoryQuery;
+  const { data: catagoryData, isLoading: isCategoryLoading } = getCategoryQuery;
+  if (isCategoryLoading) {
+    return 'loading...';
+  }
+  const { data: brandData, isLoading } = getBrandQuery;
   if (isLoading) {
-    return 'loading';
+    return 'loading...';
   }
 
   return (
@@ -91,7 +87,7 @@ const CategoryAndBrandList = () => {
         <TabsContent value="category">
           <Table className="text-center">
             <TableCaption className="text-center">
-              A list of your recent category.
+              A list of your recent categories.
             </TableCaption>
             <TableHeader>
               <TableRow>
@@ -127,7 +123,7 @@ const CategoryAndBrandList = () => {
         <TabsContent value="brand">
           <Table className="text-center">
             <TableCaption className="text-center">
-              A list of your recent invoices.
+              A list of your recent brands.
             </TableCaption>
             <TableHeader>
               <TableRow>
@@ -136,13 +132,20 @@ const CategoryAndBrandList = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {invoices.map((invoice) => (
-                <TableRow key={invoice.invoice}>
+              {brandData?.data.data.map((brand:TBrand) => (
+                <TableRow key={brand.title}>
                   <TableCell className="font-medium text-center">
-                    {invoice.invoice}
+                    {brand.title}
                   </TableCell>
                   <TableCell className="text-center">
-                    {invoice.paymentStatus}
+                    {brand.value}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {/* NEW: Use AlertDialog delete confirmation */}
+                    <DeleteCategoryDialog
+                      categoryId={brand._id}
+                      onDelete={(id) => deleteBrandMutation.mutate(id)}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
