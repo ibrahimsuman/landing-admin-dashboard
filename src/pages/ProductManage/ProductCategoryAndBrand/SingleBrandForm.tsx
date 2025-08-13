@@ -13,8 +13,11 @@ const brandSchema = z.object({
 });
 
 type BrandForm = z.infer<typeof brandSchema>;
+type SingleCategoryFormProps = {
+  onSuccess?: () => void;
+};
 
-const SingleBrandForm = () => {
+const SingleBrandForm = ({onSuccess}:SingleCategoryFormProps) => {
   const { createBrandMutation, getBrandQuery } = useBrand();
   const { mutate, isPending } = createBrandMutation;
 
@@ -43,6 +46,8 @@ const SingleBrandForm = () => {
       onSuccess: () => {
         toast.success("Brand created successfully");
         form.reset();
+        if (onSuccess) onSuccess();
+
       },
       onError: (error: any) => {
         const errMsg = error.response?.data?.message || "Something went wrong";

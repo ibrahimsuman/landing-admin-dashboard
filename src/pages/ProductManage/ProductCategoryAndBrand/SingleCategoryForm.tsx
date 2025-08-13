@@ -1,3 +1,4 @@
+// SingleCategoryForm.tsx
 import { useCategory } from "@/action/category/useCategory";
 import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";
@@ -14,12 +15,15 @@ const categorySchema = z.object({
 
 type CategoryForm = z.infer<typeof categorySchema>;
 
-const SingleCategoryForm = () => { 
-  const { createCategoryMutation, getCategoryQuery } = useCategory();
+// Add props type
+type SingleCategoryFormProps = {
+  onSuccess?: () => void;
+};
+
+const SingleCategoryForm = ({ onSuccess }: SingleCategoryFormProps) => { 
+  const { createCategoryMutation } = useCategory();
   const { mutate, isPending } = createCategoryMutation;
 
- const {data } = getCategoryQuery;
- console.log(data);
 
   const form = useForm<CategoryForm>({
     resolver: zodResolver(categorySchema),
@@ -30,8 +34,6 @@ const SingleCategoryForm = () => {
   });
 
   const { control, handleSubmit } = form;
-
-
 
   const onSubmit = (data: CategoryForm) => {
     if (data.title.toLowerCase() !== data.value.toLowerCase()) {
@@ -45,13 +47,15 @@ const SingleCategoryForm = () => {
       onSuccess: () => {
         toast.success("Category created successfully");
         form.reset();
+        if (onSuccess) onSuccess();
       },
       onError: (error: any) => {
         const errMsg = error.response?.data?.message || "Something went wrong";
         toast.error(errMsg);
       },
     });
-  }
+  };
+
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -68,14 +72,18 @@ const SingleCategoryForm = () => {
           title="Category value"
           placeholder="e.g. mobile"
         />
-        {isPending ? <Button type="button" className="w-full cursor-pointer mt-4">
-          loading...
-        </Button>
-          :
+        {isPending ? (
+          <Button type="button" className="w-full cursor-pointer mt-4">
+            loading...
+          </Button>
+        ) : (
           <Button type="submit" className="w-full cursor-pointer mt-4">
             Create Category
-          </Button>}
-        <p className="text-xs text-muted-foreground text-center">Title and value must match Value must be lowercase</p>
+          </Button>
+        )}
+        <p className="text-xs text-muted-foreground text-center">
+          Title and value must match Value must be lowercase
+        </p>
       </form>
     </FormProvider>
   );

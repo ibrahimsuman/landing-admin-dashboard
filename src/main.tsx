@@ -9,19 +9,20 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import './index.css';
 import PrivetRoute from './PrivetRoute/PrivetRoute';
+import AllUsersList from './pages/UserManage/AllUsersList';
 
 // lazy imports
 const Login = React.lazy(() => import('./pages/Login/Login'));
 const ProductCategoryAndBrand = React.lazy(() => import('./pages/ProductManage/ProductCategoryAndBrand/ProductCategoryAndBrand'));
 const Layout = React.lazy(() => import('./layout/Layout'));
-const DashMain = React.lazy(() => import('./pages/Dashboard/DashMain/DashMain'));
-const Order = React.lazy(() => import('./pages/Dashboard/Order/Order'));
-const Report = React.lazy(() => import('./pages/Dashboard/Report/Report'));
-const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderTracking/OrderTracking'));
+const DashMain = React.lazy(() => import('./pages/Dashboard/DashBoardMain/DashMain'));
+const Order = React.lazy(() => import('./pages/Dashboard/OrderManage/Order/Order'));
+const Report = React.lazy(() => import('./pages/Dashboard/OrderManage/Report/Report'));
+const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderManage/OrderTracking/OrderTracking'));
 const CreateProduct = React.lazy(() => import('./pages/ProductManage/CreateProduct'));
 const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList'));
-const Staff = React.lazy(() => import('./pages/StaffManage/Staff'));
-const StaffEnroll = React.lazy(() => import('./pages/StaffManage/StaffEnroll'));
+const Staff = React.lazy(() => import('./pages/UserManage/Staff'));
+const StaffEnroll = React.lazy(() => import('./pages/UserManage/StaffEnroll'));
 // router definition
 const router = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       { path: 'productcategory', element: <ProductCategoryAndBrand /> },
       { path: 'staff', element: <Staff /> },
       { path: 'staffenroll', element: <StaffEnroll /> },
+      { path: 'allusers', element: <AllUsersList /> },
     ],
   },
 ]);

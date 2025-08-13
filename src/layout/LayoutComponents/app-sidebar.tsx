@@ -85,8 +85,8 @@ const data = {
           url: "#",
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: "All Users",
+          url: "allusers",
         },
       ],
     },
