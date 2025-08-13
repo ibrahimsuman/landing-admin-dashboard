@@ -2,7 +2,7 @@ import { useCategory, type TCategory } from '@/action/category/useCategory';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { MdDelete } from "react-icons/md";
+
 
 // NEW: Import AlertDialog components from shadcn/ui alert dialog
 import {
@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Trash } from 'lucide-react';
 
 const invoices = [
   { invoice: "INV001", paymentStatus: "Paid", totalAmount: "$250.00", paymentMethod: "Credit Card" },
@@ -35,30 +36,39 @@ function DeleteCategoryDialog({
   onDelete: (id: string) => void;
 }) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="default" size="sm" className="cursor-pointer group">
-          <MdDelete size={14} className="transition-colors group-hover:text-red-600" />
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure you want to delete?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the category.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => onDelete(categoryId)}
-            className="bg-red-600 hover:bg-red-700"
-          >
-            Confirm Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+ <AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button
+      variant="default"
+      size="sm"
+      className="cursor-pointer group hover:bg-secondary hover:text-white "
+    >
+      <Trash size={14} className="transition-colors" />
+    </Button>
+  </AlertDialogTrigger>
+
+  <AlertDialogContent className="flex flex-col items-center justify-center text-center">
+    <AlertDialogHeader className="flex flex-col items-center justify-center">
+      <AlertDialogTitle className='text-secondary'>
+        Are you sure you want to delete?
+      </AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete the category.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+
+    <AlertDialogFooter className="flex items-center justify-center gap-3 mt-4">
+      <AlertDialogCancel className=' cursor-pointer'>Cancel</AlertDialogCancel>
+      <AlertDialogAction
+        onClick={() => onDelete(categoryId)}
+        className="bg-red-600 hover:bg-red-700 cursor-pointer"
+      >
+        Confirm Delete
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
   );
 }
 
