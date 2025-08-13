@@ -43,7 +43,7 @@ export default function ProductCategoryAndBrand() {
             {/* Modal Content */}
             <DialogContent showCloseButton={false} className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Create a new category</DialogTitle>
+                <DialogTitle>Create a new brand</DialogTitle>
               </DialogHeader> 
               <ProductCategory /> 
               <DialogClose asChild>

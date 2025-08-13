@@ -11,6 +11,9 @@ export const useCategoryService = () => {
     const res = await axiosSecure.get("/categories");
     return res;
   };
+  const deleteCategory = async (id: string) => {
+    return await axiosSecure.delete(`/categories/${id}`);
+  };
 
-  return { createCategory, getCategory };
+  return { createCategory, getCategory, deleteCategory };
 };

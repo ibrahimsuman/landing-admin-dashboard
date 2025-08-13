@@ -1,6 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+export type TBrand = {
+  _id: string;
+  title: string;
+  value: string;
+};
 export const useBrand = () => {
   const createBrandMutation = useMutation({
     mutationFn: async (data: { title: string; value: string }) => {

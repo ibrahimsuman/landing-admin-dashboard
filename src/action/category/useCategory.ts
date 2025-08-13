@@ -4,14 +4,15 @@ import useAxiosSecure from "@/API-axios/axiosSecure";
 
 
 export type TCategory = {
+  _id: string;
   title: string;
   value: string;
-} ;
+};
 
 export const useCategory = () => {
   const categoryService = useCategoryService();
   const queryClient = useQueryClient();
-    const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
 
 
   const createCategoryMutation = useMutation({
@@ -22,8 +23,14 @@ export const useCategory = () => {
   });
   const getCategoryQuery = useQuery({
     queryKey: ["category"],
-    queryFn: async ()=> await axiosSecure.get("/categories")
+    queryFn: async () => await axiosSecure.get("/categories")
+  });
+  const deleteCategoryMutation = useMutation({
+    mutationFn: categoryService.deleteCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["category"] });
+    },
   });
 
-  return { createCategoryMutation, getCategoryQuery };
+  return { createCategoryMutation, getCategoryQuery, deleteCategoryMutation };
 };
