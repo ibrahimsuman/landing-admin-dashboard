@@ -1,4 +1,3 @@
-// SingleCategoryForm.tsx
 import { useCategory } from "@/action/category/useCategory";
 import ECInputField from "@/components/module/Form/ECInputField";
 import { Button } from "@/components/ui/button";

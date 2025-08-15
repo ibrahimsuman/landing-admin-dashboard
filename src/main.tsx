@@ -10,6 +10,8 @@ import { Toaster } from 'sonner';
 import './index.css';
 import PrivetRoute from './PrivetRoute/PrivetRoute';
 import AllUsersList from './pages/UserManage/AllUsersList';
+import { FullScreenLoader } from './utils/FullScreenLoader';
+
 
 // lazy imports
 const Login = React.lazy(() => import('./pages/Login/Login'));
@@ -50,13 +52,7 @@ const queryClient = new QueryClient()
 // render with one Suspense wrapping RouterProvider for better fallback UI and FCP visibility
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Suspense
-      fallback={
-        <div style={{ padding: '2rem', textAlign: 'center', fontSize: '1.25rem' }}>
-          Loading app...
-        </div>
-      }
-    >
+    <Suspense fallback={<FullScreenLoader/>}>
       <QueryClientProvider client={queryClient}> 
         <RouterProvider router={router} />
          <ReactQueryDevtools initialIsOpen={false} />
