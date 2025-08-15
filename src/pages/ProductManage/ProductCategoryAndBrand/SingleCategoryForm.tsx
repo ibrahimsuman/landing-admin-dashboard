@@ -17,10 +17,10 @@ type CategoryForm = z.infer<typeof categorySchema>;
 
 // Add props type
 type SingleCategoryFormProps = {
-  onSuccess?: () => void;
+  closeModal?: () => void;
 };
 
-const SingleCategoryForm = ({ onSuccess }: SingleCategoryFormProps) => { 
+const SingleCategoryForm = ({ closeModal }: SingleCategoryFormProps) => { 
   const { createCategoryMutation } = useCategory();
   const { mutate, isPending } = createCategoryMutation;
 
@@ -47,7 +47,7 @@ const SingleCategoryForm = ({ onSuccess }: SingleCategoryFormProps) => {
       onSuccess: () => {
         toast.success("Category created successfully");
         form.reset();
-        if (onSuccess) onSuccess();
+        closeModal?.();
       },
       onError: (error: any) => {
         const errMsg = error.response?.data?.message || "Something went wrong";
