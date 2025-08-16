@@ -11,6 +11,7 @@ import './index.css';
 import PrivetRoute from './PrivetRoute/PrivetRoute';
 import AllUsersList from './pages/UserManage/AllUsersList';
 import { FullScreenLoader } from './utils/FullScreenLoader';
+import { ProductForm } from './pages/ProductManage/Products/ProductForm';
 
 
 // lazy imports
@@ -21,7 +22,6 @@ const DashMain = React.lazy(() => import('./pages/Dashboard/DashBoardMain/DashMa
 const Order = React.lazy(() => import('./pages/Dashboard/OrderManage/Order/Order'));
 const Report = React.lazy(() => import('./pages/Dashboard/OrderManage/Report/Report'));
 const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderManage/OrderTracking/OrderTracking'));
-const CreateProduct = React.lazy(() => import('./pages/ProductManage/CreateProduct'));
 const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList'));
 const Staff = React.lazy(() => import('./pages/UserManage/Staff'));
 const StaffEnroll = React.lazy(() => import('./pages/UserManage/StaffEnroll'));
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: 'order', element: <Order /> },
       { path: 'report', element: <Report /> },
       { path: 'ordertracking', element: <OrderTracking /> },
-      { path: 'createproduct', element: <CreateProduct /> },
+      { path: 'createproduct', element: <ProductForm /> },
       { path: 'productlist', element: <ProductList /> },
       { path: 'productcategory', element: <ProductCategoryAndBrand /> },
       { path: 'staff', element: <Staff /> },

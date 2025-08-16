@@ -43,7 +43,7 @@ const data = {
           url: "report",
         },
         {
-          title: "Order Tracking",
+          title: "Tracking Order",
           url: "ordertracking",
         },
       ],
@@ -85,8 +85,8 @@ const data = {
           url: "#",
         },
         {
-          title: "All Users",
-          url: "allusers",
+          title: "Changelog",
+          url: "#",
         },
       ],
     },
