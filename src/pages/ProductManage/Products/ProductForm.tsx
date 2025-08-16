@@ -62,7 +62,7 @@ export const ProductForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-primary/10 p-6 rounded space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded space-y-6">
       {/* 2-column grid for main fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
