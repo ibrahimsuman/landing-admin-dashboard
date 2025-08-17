@@ -11,7 +11,7 @@ import './index.css';
 import PrivetRoute from './PrivetRoute/PrivetRoute';
 import AllUsersList from './pages/UserManage/AllUsersList';
 import { FullScreenLoader } from './utils/FullScreenLoader';
-import { ProductForm } from './pages/ProductManage/Products/ProductForm';
+import ProductForm from './pages/ProductManage/Products/ProductForm';
 
 
 // lazy imports
@@ -22,7 +22,7 @@ const DashMain = React.lazy(() => import('./pages/Dashboard/DashBoardMain/DashMa
 const Order = React.lazy(() => import('./pages/Dashboard/OrderManage/Order/Order'));
 const Report = React.lazy(() => import('./pages/Dashboard/OrderManage/Report/Report'));
 const OrderTracking = React.lazy(() => import('./pages/Dashboard/OrderManage/OrderTracking/OrderTracking'));
-const ProductList = React.lazy(() => import('./pages/ProductManage/ProductList'));
+const ProductList = React.lazy(() => import('./pages/ProductManage/Products/ProductList'));
 const Staff = React.lazy(() => import('./pages/UserManage/Staff'));
 const StaffEnroll = React.lazy(() => import('./pages/UserManage/StaffEnroll'));
 // router definition
@@ -39,7 +39,11 @@ const router = createBrowserRouter([
       { path: 'order', element: <Order /> },
       { path: 'report', element: <Report /> },
       { path: 'ordertracking', element: <OrderTracking /> },
-      { path: 'createproduct', element: <ProductForm /> },
+      {
+        path: 'createproduct', element: <ProductForm onSubmitForm={(data) => {
+          console.log("Form submitted:", data);
+        }} />
+      },
       { path: 'productlist', element: <ProductList /> },
       { path: 'productcategory', element: <ProductCategoryAndBrand /> },
       { path: 'staff', element: <Staff /> },
@@ -52,11 +56,11 @@ const queryClient = new QueryClient()
 // render with one Suspense wrapping RouterProvider for better fallback UI and FCP visibility
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Suspense fallback={<FullScreenLoader/>}>
-      <QueryClientProvider client={queryClient}> 
+    <Suspense fallback={<FullScreenLoader />}>
+      <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-         <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider> 
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
       <Toaster position='top-right' />
     </Suspense>
   </StrictMode>
