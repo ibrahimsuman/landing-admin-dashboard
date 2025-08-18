@@ -115,6 +115,7 @@ export const ProductFormPage: React.FC = () => {
           <div>
             <label className="font-medium">Title</label>
             <input
+            placeholder="Product name"
               {...register("title", { required: "Please fill title" })}
               className="border p-2 rounded w-full"
             />
@@ -363,7 +364,7 @@ export const ProductFormPage: React.FC = () => {
                         {existing && (
                           <div className="flex gap-4 flex-wrap items-center">
                             <div className="flex items-center gap-1">
-                              <span className="w-10 text-sm font-medium">
+                              <span className="text-sm font-medium">
                                 Stock
                               </span>
                               <input
@@ -377,27 +378,28 @@ export const ProductFormPage: React.FC = () => {
                                     valueAsNumber: true,
                                   }
                                 )}
-                                className="border p-1 rounded w-16 text-sm"
+                                className="border p-1 rounded text-sm"
                               />
                             </div>
 
                             <div className="flex items-center gap-1">
-                              <span className="w-10 text-sm font-medium">
+                              <span className="text-sm font-medium">
                                 SKU
                               </span>
                               <input
+                              placeholder="Stock Keeping Unit"
                                 {...register(
                                   `colors.${i}.sizes.${watchColors[
                                     i
                                   ].sizes.indexOf(existing)}.sku` as const,
                                   { required: "Please fill SKU" }
                                 )}
-                                className="border p-1 rounded w-24 text-sm"
+                                className="border p-1 text-sm"
                               />
                             </div>
 
                             <div className="flex items-center gap-1">
-                              <span className="w-10 text-sm font-medium">
+                              <span className="text-sm font-medium">
                                 Price
                               </span>
                               <input
@@ -411,7 +413,7 @@ export const ProductFormPage: React.FC = () => {
                                     valueAsNumber: true,
                                   }
                                 )}
-                                className="border p-1 rounded w-20 text-sm"
+                                className="border p-1 rounded text-sm"
                               />
                             </div>
                           </div>
@@ -452,7 +454,7 @@ export const ProductFormPage: React.FC = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="px-6 py-3 bg-primary text-white rounded text-xl cursor-pointer hover:bg-primary/80"
+            className="px-6 py-3 bg-primary text-white rounded cursor-pointer hover:bg-primary/80"
           >
             Submit Product
           </button>
