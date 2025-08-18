@@ -11,7 +11,7 @@ import './index.css';
 import PrivetRoute from './PrivetRoute/PrivetRoute';
 import AllUsersList from './pages/UserManage/AllUsersList';
 import { FullScreenLoader } from './utils/FullScreenLoader';
-import {ProductForm} from './pages/ProductManage/Products/ProductForm';
+import { ProductFormPage } from './pages/ProductManage/Products/ProductFormPage';
 
 
 // lazy imports
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       { path: 'order', element: <Order /> },
       { path: 'report', element: <Report /> },
       { path: 'ordertracking', element: <OrderTracking /> },
-      {path: 'createproduct', element: <ProductForm/> },
+      {path: 'createproduct', element: <ProductFormPage/> },
       { path: 'productlist', element: <ProductList /> },
       { path: 'productcategory', element: <ProductCategoryAndBrand /> },
       { path: 'staff', element: <Staff /> },
