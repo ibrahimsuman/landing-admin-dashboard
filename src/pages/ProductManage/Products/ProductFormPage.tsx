@@ -1,14 +1,42 @@
+import { useBrand } from "@/action/Brand/useBrand";
+import { useCategory } from "@/action/category/useCategory";
 import { useUserStore } from "@/store/useUser";
 import React from "react";
+
+
 import {
   useForm,
   useFieldArray,
   Controller,
   type SubmitHandler,
 } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from ".././../../components/ui/select";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // ==== Types ====
 export type SizeOption = "XS" | "S" | "M" | "L" | "XL" | "2XL" | "One-Size";
+export type TCategory = {
+  _id: string;
+  title: string;
+  value: string;
+};
+export type TBrand = {
+  _id: string;
+  title: string;
+  value: string;
+};
 
 export type ColorSize = {
   size: SizeOption;
@@ -49,8 +77,15 @@ const sizeOptions: SizeOption[] = [
   "One-Size",
 ];
 
+
+
 export const ProductFormPage: React.FC = () => {
   const { user } = useUserStore();
+  const { getCategoryQuery } = useCategory();
+  const { getBrandQuery } = useBrand();
+
+  const { data: categoryData } = getCategoryQuery;
+  const { data: brandData } = getBrandQuery;
 
   const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
     console.log("Form submitted:", data);
@@ -115,8 +150,8 @@ export const ProductFormPage: React.FC = () => {
           <div>
             <label className="font-medium">Title</label>
             <input
-            placeholder="Product name"
-              {...register("title", { required: "Please fill title" })}
+              placeholder="Product name"
+              {...register("title", { required: "Title is required." })}
               className="border p-2 rounded w-full"
             />
             {errors.title && (
@@ -129,7 +164,7 @@ export const ProductFormPage: React.FC = () => {
           <div>
             <label className="font-medium">Slug</label>
             <input
-              {...register("slug", { required: "Please fill slug" })}
+              {...register("slug", { required: "Slug is required." })}
               className="border p-2 rounded w-full"
             />
             {errors.slug && (
@@ -141,15 +176,67 @@ export const ProductFormPage: React.FC = () => {
 
           <div>
             <label className="font-medium">Brand</label>
-            <input
-              {...register("brand", { required: "Please fill brand" })}
-              className="border p-2 rounded w-full"
-            />
+            <Select
+              onValueChange={(value) => setValue("brand", value)}
+              defaultValue=""
+            >
+              <SelectTrigger className="border p-2 rounded w-full">
+                <SelectValue placeholder="Select Brand" />
+              </SelectTrigger>
+              <SelectContent>
+                {brandData?.data?.data.map((b: TBrand) => (
+                  <SelectItem key={b._id} value={b.title}>
+                    {b.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.brand && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.brand.message}
-              </p>
+              <p className="text-red-500 text-xs mt-1">{errors.brand.message}</p>
             )}
+          </div>
+          <div>
+            <label className="block font-medium">Categories</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-between text-gray-500/60"
+                  type="button"
+      
+                >
+                  {watch("category").length > 0
+                    ? watch("category").join(", ")
+                    : "Select Categories"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56">
+                <div className="flex flex-col gap-2">
+                  {categoryData?.data?.data.map((cat: TCategory) => (
+                    <label
+                      key={cat._id}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={watch("category").includes(cat.title)}
+                        onCheckedChange={() => {
+                          const current = watch("category");
+                          if (current.includes(cat.title)) {
+                            setValue(
+                              "category",
+                              current.filter((c) => c !== cat.title)
+                            );
+                          } else {
+                            setValue("category", [...current, cat.title]);
+                          }
+                        }}
+                      />
+                      {cat.title}
+                    </label>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
@@ -157,7 +244,7 @@ export const ProductFormPage: React.FC = () => {
             <input
               type="number"
               {...register("basePrice", {
-                required: "Please fill base price",
+                required: "Base Price is required.",
                 valueAsNumber: true,
               })}
               className="border p-2 rounded w-full"
@@ -173,15 +260,20 @@ export const ProductFormPage: React.FC = () => {
             <label className="font-medium">Discount Price</label>
             <input
               type="number"
-              {...register("discountPrice", { valueAsNumber: true })}
+              {...register("discountPrice", { required: "Discount Price is required.",
+                valueAsNumber: true })}
               className="border p-2 rounded w-full"
             />
+             {errors.discountPrice && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.discountPrice.message}
+              </p>)}
           </div>
 
           <div>
             <label className="font-medium">Currency</label>
             <input
-              {...register("currency", { required: "Please fill currency" })}
+              {...register("currency", { required: "Currency is required. " })}
               className="border p-2 rounded w-full"
             />
             {errors.currency && (
@@ -191,26 +283,12 @@ export const ProductFormPage: React.FC = () => {
             )}
           </div>
 
-          <div>
-            <label className="font-medium">Category</label>
-            <input
-              {...register("category", {
-                required: "Please fill at least one category",
-              })}
-              className="border p-2 rounded w-full"
-              placeholder="Electronics, Audio"
-            />
-            {errors.category && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.category.message as string}
-              </p>
-            )}
-          </div>
+
           <div>
             <label className="font-medium">Short Description</label>
             <input
               {...register("shortDescription", {
-                required: "Please fill short description",
+                required: "Short description is required.",
               })}
               className="border p-2 rounded w-full"
             />
@@ -225,7 +303,7 @@ export const ProductFormPage: React.FC = () => {
             <label className="font-medium">Description</label>
             <textarea
               {...register("description", {
-                required: "Please fill description",
+                required: "Description is required.",
               })}
               className="border p-2 rounded w-full"
               rows={3}
@@ -250,7 +328,7 @@ export const ProductFormPage: React.FC = () => {
               <div className="flex gap-3 items-center">
                 <input
                   {...register(`colors.${i}.name` as const, {
-                    required: "Please fill color name",
+                    required: "Color name is required.",
                   })}
                   placeholder="Color Name"
                   className="border p-2 rounded w-1/2"
@@ -296,7 +374,7 @@ export const ProductFormPage: React.FC = () => {
                       <input
                         {...register(
                           `colors.${i}.images.${idx}.url` as const,
-                          { required: "Please fill image URL" }
+                          { required: "Image URL is required." }
                         )}
                         placeholder="Image URL"
                         className="border p-2 rounded w-full"
@@ -330,23 +408,22 @@ export const ProductFormPage: React.FC = () => {
               </div>
 
               {/* Sizes */}
+
               <div>
                 <h4 className="font-medium mb-2">Sizes</h4>
 
                 <div className="space-y-2">
                   {sizeOptions.map((size) => {
-                    const existing = watchColors[i].sizes.find(
-                      (s) => s.size === size
-                    );
+                    const existing = watchColors[i].sizes.find((s) => s.size === size);
+
                     return (
                       <div key={size} className="flex items-center gap-2">
-                        <input
-                          className="w-5 h-5"
-                          type="checkbox"
+                        {/* ✅ Shadcn Checkbox */}
+                        <Checkbox
                           checked={!!existing}
-                          onChange={(e) => {
+                          onCheckedChange={(checked) => {
                             const sizes = watchColors[i].sizes || [];
-                            if (e.target.checked) {
+                            if (checked) {
                               setValue(`colors.${i}.sizes`, [
                                 ...sizes,
                                 { size, stock: 0, sku: "", price: 0 },
@@ -359,14 +436,14 @@ export const ProductFormPage: React.FC = () => {
                             }
                           }}
                         />
+
                         <span className="w-16 font-medium">{size}</span>
 
                         {existing && (
                           <div className="flex gap-4 flex-wrap items-center">
+                            {/* STOCK */}
                             <div className="flex items-center gap-1">
-                              <span className="text-sm font-medium">
-                                Stock
-                              </span>
+                              <span className="text-sm font-medium">Stock</span>
                               <input
                                 type="number"
                                 {...register(
@@ -374,7 +451,7 @@ export const ProductFormPage: React.FC = () => {
                                     i
                                   ].sizes.indexOf(existing)}.stock` as const,
                                   {
-                                    required: "Please fill stock",
+                                    required: "Stock is required.",
                                     valueAsNumber: true,
                                   }
                                 )}
@@ -382,26 +459,24 @@ export const ProductFormPage: React.FC = () => {
                               />
                             </div>
 
+                            {/* SKU */}
                             <div className="flex items-center gap-1">
-                              <span className="text-sm font-medium">
-                                SKU
-                              </span>
+                              <span className="text-sm font-medium">SKU</span>
                               <input
-                              placeholder="Stock Keeping Unit"
+                                placeholder="Stock Keeping Unit"
                                 {...register(
                                   `colors.${i}.sizes.${watchColors[
                                     i
                                   ].sizes.indexOf(existing)}.sku` as const,
-                                  { required: "Please fill SKU" }
+                                  { required: "SKU is required." }
                                 )}
                                 className="border p-1 text-sm"
                               />
                             </div>
 
+                            {/* PRICE */}
                             <div className="flex items-center gap-1">
-                              <span className="text-sm font-medium">
-                                Price
-                              </span>
+                              <span className="text-sm font-medium">Price</span>
                               <input
                                 type="number"
                                 {...register(
@@ -409,7 +484,7 @@ export const ProductFormPage: React.FC = () => {
                                     i
                                   ].sizes.indexOf(existing)}.price` as const,
                                   {
-                                    required: "Please fill price",
+                                    required: "Price must required.",
                                     valueAsNumber: true,
                                   }
                                 )}
@@ -423,6 +498,7 @@ export const ProductFormPage: React.FC = () => {
                   })}
                 </div>
               </div>
+
 
               {/* Remove color button */}
               <button
