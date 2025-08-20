@@ -13,22 +13,25 @@ const DashQuickaction = () => {
         Quick Actions
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Button variant="outline" className="flex items-center gap-1 p-4">
-          <PlusCircle size={20} />
-          <span className="text-xs">Add Product</span>
-        </Button>
-        <Button variant="outline" className="flex items-center gap-1 p-4">
-          <ShoppingCart size={20} />
-          <span className="text-xs">Manage Orders</span>
-        </Button>
-        <Button variant="outline" className="flex items-center gap-1 p-4">
-          <FileText size={20} />
-          <span className="text-xs">View Reports</span>
-        </Button>
-        <Button variant="outline" className="flex items-center gap-1 p-4">
-          <Send size={20} />
-          <span className="text-xs">Send Message</span>
-        </Button>
+        {[
+          { icon: <PlusCircle size={20} />, label: "Add Product" },
+          { icon: <ShoppingCart size={20} />, label: "Manage Orders" },
+          { icon: <FileText size={20} />, label: "View Reports" },
+          { icon: <Send size={20} />, label: "Send Message" },
+        ].map((btn, index) => (
+          <Button
+            key={index}
+            variant="outline"
+            className="relative overflow-hidden group flex items-center gap-1 p-4"
+          >
+            {/* Ripple effect */}
+            <span className="absolute inset-0 bg-primary/20 scale-0 group-hover:scale-100 transition-transform duration-500 origin-center"></span>
+
+            {/* Button content */}
+            <span className="relative z-10">{btn.icon}</span>
+            <span className="text-xs relative z-10">{btn.label}</span>
+          </Button>
+        ))}
       </div>
     </div>
   );
