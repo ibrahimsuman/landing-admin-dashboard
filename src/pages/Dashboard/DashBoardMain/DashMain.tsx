@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import DashQuickaction from "./DashQuickaction";
 import VisitorSalesChart from "./VisitorSalesChart";
+import { TransactionsView } from "./TransactionsView";
 
 const stats = [
     {
@@ -116,6 +117,9 @@ const DashMain = () => {
             <DashQuickaction />
             <div className="my-8">
                 <VisitorSalesChart />
+            </div>
+            <div>
+                <TransactionsView></TransactionsView>
             </div>
 
         </>
