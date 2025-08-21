@@ -145,7 +145,8 @@ export const ProductFormPage: React.FC = () => {
               <label className="font-medium">User ID</label>
               <input
                 {...register("userId")}
-                className="border p-2 rounded w-full bg-gray-100"
+                className="border p-2 rounded w-full bg-gray-100
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                 readOnly
               />
             </div>
@@ -155,12 +156,11 @@ export const ProductFormPage: React.FC = () => {
               <input
                 placeholder="Product name"
                 {...register("title", { required: "Title is required." })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.title && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.title.message}
-                </p>
+                <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>
               )}
             </div>
 
@@ -168,12 +168,11 @@ export const ProductFormPage: React.FC = () => {
               <label className="font-medium">Slug</label>
               <input
                 {...register("slug", { required: "Slug is required." })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.slug && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.slug.message}
-                </p>
+                <p className="text-red-500 text-xs mt-1">{errors.slug.message}</p>
               )}
             </div>
 
@@ -183,30 +182,40 @@ export const ProductFormPage: React.FC = () => {
                 onValueChange={(value) => setValue("brand", value)}
                 defaultValue=""
               >
-                <SelectTrigger className="border p-2 rounded w-full">
+                <SelectTrigger className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50">
                   <SelectValue placeholder="Select Brand" />
                 </SelectTrigger>
                 <SelectContent>
                   {brandData?.data?.data.map((b: TBrand) => (
-                    <SelectItem key={b._id} value={b.title}>
+                    <SelectItem
+                      key={b._id}
+                      value={b.title}
+                      // override default styling
+                      className="cursor-pointer focus:bg-primary/10 focus:text-primary 
+                 data-[highlighted]:bg-primary/10 data-[highlighted]:text-primary"
+                    >
                       {b.title}
                     </SelectItem>
                   ))}
                 </SelectContent>
+
+
               </Select>
               {errors.brand && (
                 <p className="text-red-500 text-xs mt-1">{errors.brand.message}</p>
               )}
             </div>
+
             <div>
               <label className="block font-medium">Categories</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-between text-gray-500/60"
+                    className="w-full justify-between text-gray-500/60 
+              focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                     type="button"
-
                   >
                     {watch("category").length > 0
                       ? watch("category").join(", ")
@@ -218,7 +227,8 @@ export const ProductFormPage: React.FC = () => {
                     {categoryData?.data?.data.map((cat: TCategory) => (
                       <label
                         key={cat._id}
-                        className="flex items-center gap-2 cursor-pointer"
+                        className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md 
+                 hover:bg-primary/10 hover:text-primary"
                       >
                         <Checkbox
                           checked={watch("category").includes(cat.title)}
@@ -238,6 +248,7 @@ export const ProductFormPage: React.FC = () => {
                       </label>
                     ))}
                   </div>
+
                 </PopoverContent>
               </Popover>
             </div>
@@ -250,12 +261,11 @@ export const ProductFormPage: React.FC = () => {
                   required: "Base Price is required.",
                   valueAsNumber: true,
                 })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.basePrice && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.basePrice.message}
-                </p>
+                <p className="text-red-500 text-xs mt-1">{errors.basePrice.message}</p>
               )}
             </div>
 
@@ -265,21 +275,24 @@ export const ProductFormPage: React.FC = () => {
                 type="number"
                 {...register("discountPrice", {
                   required: "Discount Price is required.",
-                  valueAsNumber: true
+                  valueAsNumber: true,
                 })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.discountPrice && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.discountPrice.message}
-                </p>)}
+                </p>
+              )}
             </div>
 
             <div>
               <label className="font-medium">Currency</label>
               <input
-                {...register("currency", { required: "Currency is required. " })}
-                className="border p-2 rounded w-full"
+                {...register("currency", { required: "Currency is required." })}
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.currency && (
                 <p className="text-red-500 text-xs mt-1">
@@ -288,14 +301,14 @@ export const ProductFormPage: React.FC = () => {
               )}
             </div>
 
-
             <div>
               <label className="font-medium">Short Description</label>
               <input
                 {...register("shortDescription", {
                   required: "Short description is required.",
                 })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
               />
               {errors.shortDescription && (
                 <p className="text-red-500 text-xs mt-1">
@@ -310,7 +323,8 @@ export const ProductFormPage: React.FC = () => {
                 {...register("description", {
                   required: "Description is required.",
                 })}
-                className="border p-2 rounded w-full"
+                className="border p-2 rounded w-full 
+          focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                 rows={3}
               />
               {errors.description && (
@@ -321,6 +335,7 @@ export const ProductFormPage: React.FC = () => {
             </div>
           </div>
         </Card>
+
 
         {/* Colors Section */}
         <Card className="py-0">
@@ -339,7 +354,7 @@ export const ProductFormPage: React.FC = () => {
                           required: "Color name is required.",
                         })}
                         placeholder="Color Name"
-                        className="border p-2 rounded w-1/2"
+                        className="border p-2 rounded w-1/2 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                       />
                       {errors.colors?.[i]?.name && (
                         <p className="text-red-500 text-xs mt-1">
@@ -356,12 +371,12 @@ export const ProductFormPage: React.FC = () => {
                             <input
                               type="color"
                               {...field}
-                              className="w-10 h-10 p-0 border rounded cursor-pointer"
+                              className="w-10 h-10 p-0 cursor-pointer  "
                             />
                             <input
                               {...register(`colors.${i}.hexCode` as const)}
                               value={field.value}
-                              className="border p-2 rounded text-sm"
+                              className="border p-2 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                             />
                           </div>
                         )}
@@ -399,7 +414,7 @@ export const ProductFormPage: React.FC = () => {
                           />
                           <label
                             htmlFor={`file-input-${i}-${idx}`}
-                            className="flex items-center justify-center gap-1 border p-2 rounded flex-1 cursor-pointer"
+                            className="flex items-center justify-center gap-1 border hover:border hover:border-primary/50 p-2 rounded flex-1 cursor-pointer "
                           >
                             <LucideUpload className="w-4 h-4" />
                             Browse
@@ -411,21 +426,21 @@ export const ProductFormPage: React.FC = () => {
                               required: "Image URL is required.",
                             })}
                             placeholder="Image URL"
-                            className="border p-2 rounded flex-1"
+                            className="border p-2 rounded flex-1 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                           />
 
                           {/* Alt Text Input */}
                           <input
                             {...register(`colors.${i}.images.${idx}.alt` as const)}
                             placeholder="Alt Text"
-                            className="border p-2 rounded w-24 text-sm"
+                            className="border p-2 rounded w-24 text-sm focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                           />
                         </div>
                       ))}
 
                       <button
                         type="button"
-                        className="py-1 text-primary rounded text-xs"
+                        className="py-1 text-primary cursor-pointer text-xs "
                         onClick={() =>
                           setValue(`colors.${i}.images`, [
                             ...watchColors[i].images,
@@ -471,7 +486,7 @@ export const ProductFormPage: React.FC = () => {
                                 }
                               }}
                             />
-                            <span className="w-12 font-medium">{size}</span>
+                            <span className="w-18 font-medium">{size}</span>
                           </div>
 
                           {/* Right side: Stock, SKU, Price */}
@@ -487,7 +502,7 @@ export const ProductFormPage: React.FC = () => {
                                     )}.stock` as const,
                                     { required: "Stock is required.", valueAsNumber: true }
                                   )}
-                                  className="border p-1 rounded text-sm w-16"
+                                  className="border p-1 rounded text-sm w-16 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                                 />
                               </div>
                               <div className="flex items-center gap-1">
@@ -500,7 +515,7 @@ export const ProductFormPage: React.FC = () => {
                                     )}.sku` as const,
                                     { required: "SKU is required." }
                                   )}
-                                  className="border p-1 rounded text-sm w-24"
+                                  className="border p-1 rounded text-sm w-24 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                                 />
                               </div>
                               <div className="flex items-center gap-1">
@@ -513,7 +528,7 @@ export const ProductFormPage: React.FC = () => {
                                     )}.price` as const,
                                     { required: "Price is required.", valueAsNumber: true }
                                   )}
-                                  className="border p-1 rounded text-sm w-20"
+                                  className="border p-1 rounded text-sm w-20 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
                                 />
                               </div>
                             </div>
