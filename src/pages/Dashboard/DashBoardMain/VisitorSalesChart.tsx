@@ -53,7 +53,6 @@ const VisitorSalesChart = () => {
 
   const rangeLabel = { 1: "Today", 7: "Last 7 Days", 30: "Last 30 Days" };
 
-  // Pie data for order status
   const pieData = [
     { name: "Success", value: 70 },
     { name: "Return", value: 20 },
@@ -61,22 +60,25 @@ const VisitorSalesChart = () => {
   ];
 
   const COLORS = [
-    "var(--color-primary)",   // success
-    "var(--color-secondary)", // return
-    "var(--color-muted)",    // pending
+    "var(--color-primary)",
+    "var(--color-secondary)",
+    "var(--color-muted)",
   ];
 
   return (
-    <div className="flex gap-4">
-      {/* 70% Chart Card */}
-      <Card className="w-7/10 py-4">
+    <div className="flex flex-col lg:flex-row gap-4">
+      <Card className="w-full lg:w-[70%] min-w-0 py-4">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-lg font-semibold text-secondary">
             Visitors & Sales
           </CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1"
+              >
                 {rangeLabel[range]} <ChevronDown size={16} />
               </Button>
             </DropdownMenuTrigger>
@@ -89,7 +91,7 @@ const VisitorSalesChart = () => {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between text-sm text-muted-foreground gap-2">
             <div>
               <span className="font-medium text-secondary">{totalVisitors}</span> visitors
             </div>
@@ -98,47 +100,56 @@ const VisitorSalesChart = () => {
             </div>
           </div>
 
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="visitors" fill="var(--color-primary)" name="Visitors" />
-              <Bar dataKey="sales" fill="var(--color-secondary)" name="Sales" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="w-full h-64 sm:h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="visitors" fill="var(--color-primary)" name="Visitors" />
+                <Bar dataKey="sales" fill="var(--color-secondary)" name="Sales" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
-      {/* 30% Circle Pie Card */}
-      <Card className="w-3/10">
+      <Card className="w-full lg:w-[30%] min-w-0 py-4">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-secondary">Order Status</CardTitle>
+          <CardTitle className="text-lg font-semibold text-secondary">
+            Order Status
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                innerRadius={50}
-                outerRadius={80}
-                paddingAngle={0}
-                dataKey="value"
-                nameKey="name"
-              >
-                {pieData.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          <div className="w-full h-64 sm:h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={0}
+                  dataKey="value"
+                  nameKey="name"
+                >
+                  {pieData.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>
+
   );
 };
 

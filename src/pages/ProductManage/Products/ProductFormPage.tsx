@@ -338,210 +338,210 @@ export const ProductFormPage: React.FC = () => {
           </div>
         </Card>
         {/* Colors Section */}
-    <Card className="py-0">
-    {colorFields.map((color, i) => (
-    <div key={color.id} className="p-8 rounded space-y-4">
-    <div className="flex flex-col lg:flex-row gap-6">
-   {/* Left: Color Name + Hex + Images */}
-   <div className="flex-1 space-y-4">
-    {/* Color Name + Hex */}
-    <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium">Color Title</label>
-      <div className="flex flex-col sm:flex-row gap-3">
-        {/* Color Name */}
-        <div className="flex flex-col w-full sm:w-1/2">
-          <input
-            {...register(`colors.${i}.name` as const, {
-              required: "Color name is required.",
-            })}
-            placeholder="Color Name"
-            className="border p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-          />
-          {errors.colors?.[i]?.name && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.colors[i]?.name?.message}
-            </p>
-          )}
-        </div>
+        <Card className="py-0">
+          {colorFields.map((color, i) => (
+            <div key={color.id} className="p-8 rounded space-y-4">
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Left: Color Name + Hex + Images */}
+                <div className="flex-1 space-y-4">
+                  {/* Color Name + Hex */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium">Color Title</label>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      {/* Color Name */}
+                      <div className="flex flex-col w-full sm:w-1/2">
+                        <input
+                          {...register(`colors.${i}.name` as const, {
+                            required: "Color name is required.",
+                          })}
+                          placeholder="Color Name"
+                          className="border p-2 rounded w-full focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                        />
+                        {errors.colors?.[i]?.name && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.colors[i]?.name?.message}
+                          </p>
+                        )}
+                      </div>
 
-        {/* Hex Code */}
-        <div className="flex flex-col w-full sm:w-1/2">
-          <Controller
-            name={`colors.${i}.hexCode` as const}
-            control={control}
-            rules={{ required: "Please select color" }}
-            render={({ field }) => (
-              <div className="flex items-center gap-2 w-full">
-                <input
-                  type="color"
-                  {...field}
-                  className="w-10 h-10 p-0 cursor-pointer flex-shrink-0"
-                />
-                <input
-                  {...register(`colors.${i}.hexCode` as const)}
-                  value={field.value}
-                  className="border p-2 rounded text-sm w-full focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-                />
+                      {/* Hex Code */}
+                      <div className="flex flex-col w-full sm:w-1/2">
+                        <Controller
+                          name={`colors.${i}.hexCode` as const}
+                          control={control}
+                          rules={{ required: "Please select color" }}
+                          render={({ field }) => (
+                            <div className="flex items-center gap-2 w-full">
+                              <input
+                                type="color"
+                                {...field}
+                                className="w-10 h-10 p-0 cursor-pointer flex-shrink-0"
+                              />
+                              <input
+                                {...register(`colors.${i}.hexCode` as const)}
+                                value={field.value}
+                                className="border p-2 rounded text-sm w-full focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                              />
+                            </div>
+                          )}
+                        />
+                        {errors.colors?.[i]?.hexCode && (
+                          <p className="text-red-500 text-xs mt-1">
+                            {errors.colors[i]?.hexCode?.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Images */}
+                  <div>
+                    <h4 className="font-medium mb-2">Images</h4>
+                    <div className="space-y-2">
+                      {watchColors[i].images.map((_, idx) => (
+                        <div key={idx} className="flex flex-wrap gap-2 items-center">
+                          {/* Browse Image Button */}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            id={`file-input-${i}-${idx}`}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const url = URL.createObjectURL(file);
+                                const images = [...watchColors[i].images];
+                                images[idx].url = url;
+                                setValue(`colors.${i}.images`, images);
+                              }
+                            }}
+                          />
+                          <label
+                            htmlFor={`file-input-${i}-${idx}`}
+                            className="flex items-center justify-center gap-1 border hover:border-primary/50 p-2 rounded cursor-pointer w-28"
+                          >
+                            <LucideUpload className="w-4 h-4" />
+                            Browse
+                          </label>
+
+                          {/* Image URL */}
+                          <input
+                            {...register(`colors.${i}.images.${idx}.url` as const, {
+                              required: "Image URL is required.",
+                            })}
+                            placeholder="Image URL"
+                            className="border p-2 rounded flex-1 min-w-[120px] sm:min-w-[200px] focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                          />
+
+                          {/* Alt Text */}
+                          <input
+                            {...register(`colors.${i}.images.${idx}.alt` as const)}
+                            placeholder="Alt Text"
+                            className="border p-2 rounded w-24 sm:w-32 text-sm focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                          />
+                        </div>
+                      ))}
+
+                      <button
+                        type="button"
+                        className="py-1 text-primary cursor-pointer text-xs"
+                        onClick={() =>
+                          setValue(`colors.${i}.images`, [
+                            ...watchColors[i].images,
+                            { url: "", alt: "" },
+                          ])
+                        }
+                      >
+                        + Add Image
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Sizes */}
+                <div className="flex-1 space-y-2">
+                  <h4 className="font-medium mb-2">Sizes</h4>
+                  <div className="space-y-2">
+                    {sizeOptions.map((size) => {
+                      const existing = watchColors[i].sizes.find((s) => s.size === size);
+
+                      return (
+                        <div
+                          key={size}
+                          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full"
+                        >
+                          {/* Left side: Checkbox + Size */}
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={!!existing}
+                              onCheckedChange={(checked) => {
+                                const sizes = watchColors[i].sizes || [];
+                                if (checked) {
+                                  setValue(`colors.${i}.sizes`, [
+                                    ...sizes,
+                                    { size, stock: 0, sku: "", price: 0 },
+                                  ]);
+                                } else {
+                                  setValue(
+                                    `colors.${i}.sizes`,
+                                    sizes.filter((s) => s.size !== size)
+                                  );
+                                }
+                              }}
+                            />
+                            <span className="w-18 font-medium">{size}</span>
+                          </div>
+
+                          {/* Right side: Stock, SKU, Price */}
+                          {existing && (
+                            <div className="flex flex-wrap justify-end items-center gap-2 sm:gap-4 flex-1">
+                              <div className="flex items-center gap-1">
+                                <span className="text-sm font-medium">Stock</span>
+                                <input
+                                  type="number"
+                                  {...register(
+                                    `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
+                                      existing
+                                    )}.stock` as const,
+                                    { required: "Stock is required.", valueAsNumber: true }
+                                  )}
+                                  className="border p-1 rounded text-sm w-16 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                                />
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <span className="text-sm font-medium">SKU</span>
+                                <input
+                                  placeholder="SKU"
+                                  {...register(
+                                    `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
+                                      existing
+                                    )}.sku` as const,
+                                    { required: "SKU is required." }
+                                  )}
+                                  className="border p-1 rounded text-sm w-24 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                                />
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <span className="text-sm font-medium">Price</span>
+                                <input
+                                  type="number"
+                                  {...register(
+                                    `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
+                                      existing
+                                    )}.price` as const,
+                                    { required: "Price is required.", valueAsNumber: true }
+                                  )}
+                                  className="border p-1 rounded text-sm w-20 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-            )}
-          />
-          {errors.colors?.[i]?.hexCode && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.colors[i]?.hexCode?.message}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
-
-    {/* Images */}
-    <div>
-      <h4 className="font-medium mb-2">Images</h4>
-      <div className="space-y-2">
-        {watchColors[i].images.map((_, idx) => (
-          <div key={idx} className="flex flex-wrap gap-2 items-center">
-            {/* Browse Image Button */}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              id={`file-input-${i}-${idx}`}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  const images = [...watchColors[i].images];
-                  images[idx].url = url;
-                  setValue(`colors.${i}.images`, images);
-                }
-              }}
-            />
-            <label
-              htmlFor={`file-input-${i}-${idx}`}
-              className="flex items-center justify-center gap-1 border hover:border-primary/50 p-2 rounded cursor-pointer w-28"
-            >
-              <LucideUpload className="w-4 h-4" />
-              Browse
-            </label>
-
-            {/* Image URL */}
-            <input
-              {...register(`colors.${i}.images.${idx}.url` as const, {
-                required: "Image URL is required.",
-              })}
-              placeholder="Image URL"
-              className="border p-2 rounded flex-1 min-w-[120px] sm:min-w-[200px] focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-            />
-
-            {/* Alt Text */}
-            <input
-              {...register(`colors.${i}.images.${idx}.alt` as const)}
-              placeholder="Alt Text"
-              className="border p-2 rounded w-24 sm:w-32 text-sm focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-            />
-          </div>
-        ))}
-
-        <button
-          type="button"
-          className="py-1 text-primary cursor-pointer text-xs"
-          onClick={() =>
-            setValue(`colors.${i}.images`, [
-              ...watchColors[i].images,
-              { url: "", alt: "" },
-            ])
-          }
-        >
-          + Add Image
-        </button>
-      </div>
-    </div>
-  </div>
-
-  {/* Right: Sizes */}
-  <div className="flex-1 space-y-2">
-    <h4 className="font-medium mb-2">Sizes</h4>
-    <div className="space-y-2">
-      {sizeOptions.map((size) => {
-        const existing = watchColors[i].sizes.find((s) => s.size === size);
-
-        return (
-          <div
-            key={size}
-            className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 w-full"
-          >
-            {/* Left side: Checkbox + Size */}
-            <div className="flex items-center gap-2">
-              <Checkbox
-                checked={!!existing}
-                onCheckedChange={(checked) => {
-                  const sizes = watchColors[i].sizes || [];
-                  if (checked) {
-                    setValue(`colors.${i}.sizes`, [
-                      ...sizes,
-                      { size, stock: 0, sku: "", price: 0 },
-                    ]);
-                  } else {
-                    setValue(
-                      `colors.${i}.sizes`,
-                      sizes.filter((s) => s.size !== size)
-                    );
-                  }
-                }}
-              />
-              <span className="w-18 font-medium">{size}</span>
-            </div>
-
-            {/* Right side: Stock, SKU, Price */}
-            {existing && (
-              <div className="flex flex-wrap justify-end items-center gap-2 sm:gap-4 flex-1">
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-medium">Stock</span>
-                  <input
-                    type="number"
-                    {...register(
-                      `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
-                        existing
-                      )}.stock` as const,
-                      { required: "Stock is required.", valueAsNumber: true }
-                    )}
-                    className="border p-1 rounded text-sm w-16 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-                  />
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-medium">SKU</span>
-                  <input
-                    placeholder="SKU"
-                    {...register(
-                      `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
-                        existing
-                      )}.sku` as const,
-                      { required: "SKU is required." }
-                    )}
-                    className="border p-1 rounded text-sm w-24 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-                  />
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-medium">Price</span>
-                  <input
-                    type="number"
-                    {...register(
-                      `colors.${i}.sizes.${watchColors[i].sizes.indexOf(
-                        existing
-                      )}.price` as const,
-                      { required: "Price is required.", valueAsNumber: true }
-                    )}
-                    className="border p-1 rounded text-sm w-20 focus:outline-none focus:ring-1 focus:ring-primary/10 focus:border-primary/50"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </div>
-</div>
               {/* Buttons */}
               <div className="flex items-center justify-between mt-4">
                 <Button

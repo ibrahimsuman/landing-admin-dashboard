@@ -32,10 +32,10 @@ export function TransactionsView() {
 
     return (
         <div className="flex flex-col lg:flex-row gap-4 w-full max-w-full mx-auto">
-            {/* Left Cards */}
             <div className="flex flex-col gap-4 w-full lg:w-1/3">
-                <Card className="w-full h-32 py-0 lg:h-full flex-1 rounded-xl overflow-hidden">
-                    <CardContent className="flex justify-between items-center h-full px-4 bg-gradient-to-r from-primary/10 to-primary/100">
+                {/* Balance Card */}
+                <Card className="w-full lg:h-full flex-1 rounded-xl overflow-hidden bg-gradient-to-r from-primary/10 to-primary/100">
+                    <CardContent className="flex justify-between items-center h-full px-4 ">
                         <div>
                             <p className="text-xs uppercase tracking-wide text-gray-500">Current Balance</p>
                             <p className="text-xl font-bold">${totalBalance.toLocaleString()}</p>
@@ -46,38 +46,39 @@ export function TransactionsView() {
                     </CardContent>
                 </Card>
 
-                <div className="flex gap-4">
-                    <Card className="w-full h-32 lg:h-full flex-1">
+                {/* Incoming + Ongoing Cards */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <Card className="w-full min-h-[100px] flex-1 rounded-xl">
                         <CardContent className="flex justify-between items-center h-full px-3">
                             <div>
                                 <p className="text-xs uppercase tracking-wide text-green-500">Incoming</p>
                                 <p className="text-lg font-bold">${incoming}.00</p>
                             </div>
-                            <div className="bg-primary-100 p-1.5 rounded-full bg-green-200">
-                                <BanknoteArrowDown className="w-4 h-4 text-primary-500" />
+                            <div className="p-2 rounded-full bg-green-200">
+                                <BanknoteArrowDown className="w-4 h-4 text-green-600" />
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="w-full h-32 lg:h-full flex-1">
+                    <Card className="w-full min-h-[100px] flex-1 rounded-xl">
                         <CardContent className="flex justify-between items-center h-full px-3">
                             <div>
                                 <p className="text-xs uppercase tracking-wide text-red-500">Ongoing</p>
                                 <p className="text-lg font-bold">${ongoing}.00</p>
                             </div>
-                            <div className="bg-primary-100 p-2 rounded-full bg-red-200">
-                                <BanknoteArrowUp className="w-4 h-4 text-primary-500" />
+                            <div className="p-2 rounded-full bg-red-200">
+                                <BanknoteArrowUp className="w-4 h-4 text-red-600" />
                             </div>
                         </CardContent>
                     </Card>
                 </div>
             </div>
 
-            {/* Right Table */}
             <div className="w-full lg:w-2/3">
-                <Card className="w-full h-full">
+                <Card className="w-full h-full rounded-xl">
                     <CardContent className="flex flex-col h-full">
                         <h2 className="text-md font-semibold text-gray-900 mb-2">Recent Transactions</h2>
+
                         <div className="overflow-x-auto flex-1">
                             <table className="min-w-full text-sm text-left rounded-md">
                                 <thead className="bg-primary/20">
@@ -97,7 +98,9 @@ export function TransactionsView() {
                                         })
                                         .slice(0, 5)
                                         .map((txn) => {
-                                            const formattedDate = new Date(`${txn.date} ${txn.time}`).toLocaleString("en-US", {
+                                            const formattedDate = new Date(
+                                                `${txn.date} ${txn.time}`
+                                            ).toLocaleString("en-US", {
                                                 month: "short",
                                                 day: "numeric",
                                                 year: "numeric",
@@ -127,14 +130,14 @@ export function TransactionsView() {
                             </table>
                         </div>
 
-                        <button className="mt-2 text-primary py-1.5 px-3 rounded-md hover:bg-primary-600 transition-colors text-sm self-start">
+                        <button className="mt-2 text-primary py-1.5 px-3 rounded-md hover:bg-primary/80 transition-colors text-sm self-start">
                             View All Transactions
                         </button>
                     </CardContent>
                 </Card>
             </div>
-
         </div>
+
     );
 }
 
