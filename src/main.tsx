@@ -12,6 +12,7 @@ import PrivetRoute from './PrivetRoute/PrivetRoute';
 import AllUsersList from './pages/UserManage/AllUsersList';
 import { FullScreenLoader } from './utils/FullScreenLoader';
 import { ProductFormPage } from './pages/ProductManage/Products/ProductFormPage';
+import CreatePlatform from './layout/LayoutComponents/CreatePlatform/CreatePlatform';
 
 
 // lazy imports
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       { path: 'staff', element: <Staff /> },
       { path: 'staffenroll', element: <StaffEnroll /> },
       { path: 'allusers', element: <AllUsersList /> },
+      { path: 'createplatform', element: <CreatePlatform/>}
     ],
   },
 ]);

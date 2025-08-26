@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useUserStore } from "@/store/useUser"
 import Cookies from "js-cookie"
+import { Link } from "react-router-dom"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
@@ -82,7 +83,7 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
-                Upgrade to Pro
+                <Link to='createplatform'>Create Platform</Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
