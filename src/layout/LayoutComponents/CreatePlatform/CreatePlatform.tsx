@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Card,
   CardHeader,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AppWindow, UploadCloud } from "lucide-react";
+import { AppWindow, UploadCloud, X } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 type ProductFormValues = {
@@ -24,9 +24,11 @@ const CreatePlatform = () => {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [faviconPreview, setFaviconPreview] = useState<string | null>(null);
 
-  // Store selected files
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [faviconFile, setFaviconFile] = useState<File | null>(null);
+
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const faviconInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -46,27 +48,42 @@ const CreatePlatform = () => {
     }
   };
 
+  const removeFile = (type: "logo" | "favicon") => {
+    if (type === "logo") {
+      if (logoPreview) URL.revokeObjectURL(logoPreview);
+      setLogoPreview(null);
+      setLogoFile(null);
+      if (logoInputRef.current) logoInputRef.current.value = ""; // reset input
+    } else {
+      if (faviconPreview) URL.revokeObjectURL(faviconPreview);
+      setFaviconPreview(null);
+      setFaviconFile(null);
+      if (faviconInputRef.current) faviconInputRef.current.value = ""; // reset input
+    }
+  };
+
   const onSubmit = (data: ProductFormValues) => {
-    const jsonData = { siteName: data.title };
+    const payload = [
+    {
+      siteName: data.title,
+      ...(logoFile && { 
+        logo: { url: logoFile.name, alt: logoFile.name } 
+      }),
+    },
+    ...(faviconFile
+      ? [{
+          favIcon: { url: faviconFile.name, alt: faviconFile.name },
+        }]
+      : []),
+  ];
+
+  console.log(payload);
+
 
     const formData = new FormData();
-    formData.append("data", JSON.stringify(jsonData));
-
+    formData.append("data", JSON.stringify(payload));
     if (logoFile) formData.append("files", logoFile);
     if (faviconFile) formData.append("files", faviconFile);
-
-    console.log("Structured JSON:", jsonData);
-
-    console.log("FormData entries:");
-    formData.forEach((value, key) => {
-      if (value instanceof File) {
-        console.log(key, value.name);
-      } else {
-        console.log(key, value);
-      }
-    });
-
-    // For now, don't send the request
     // fetch("http://landing.imranexporter.com/api", { method: "POST", body: formData })
   };
 
@@ -81,7 +98,6 @@ const CreatePlatform = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-6 mb-6">
-            {/* Company Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Company Name
@@ -91,10 +107,10 @@ const CreatePlatform = () => {
                 className="py-2 px-4 border-gray-300 focus:border-primary focus:ring-primary hover:border-primary"
                 {...register("title", { required: "Title is required." })}
               />
-              {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+              {errors.title && (
+                <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+              )}
             </div>
-
-            {/* Upload Logo */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Upload Logo
@@ -106,32 +122,40 @@ const CreatePlatform = () => {
                   type="file"
                   accept="image/*"
                   className="hidden"
+                  ref={logoInputRef}
                   onChange={(e) => handleFileChange(e, "logo")}
                 />
               </label>
               {logoPreview && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <img
-                      src={logoPreview}
-                      alt="Logo Preview"
-                      className="mt-2 w-16 h-16 object-contain border rounded cursor-pointer hover:scale-105 transition"
-                    />
-                  </DialogTrigger>
-                  <DialogContent className="p-4 flex justify-center items-center">
-                    <div className="border-2 border-gray-300 p-2 rounded-lg bg-white max-h-full max-w-full flex justify-center items-center">
+                <div className="mt-2 flex items-center gap-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
                       <img
                         src={logoPreview}
-                        alt="Logo Large Preview"
-                        className="object-contain rounded-md"
+                        alt="Logo Preview"
+                        className="w-16 h-16 object-contain border rounded cursor-pointer hover:scale-105 transition"
                       />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                    </DialogTrigger>
+                    <DialogContent className="p-4 flex justify-center items-center">
+                      <div className="border-2 border-gray-300 p-2 rounded-lg bg-white max-h-full max-w-full flex justify-center items-center">
+                        <img
+                          src={logoPreview}
+                          alt="Logo Large Preview"
+                          className="object-contain rounded-md"
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => removeFile("logo")}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
               )}
             </div>
-
-            {/* Upload Favicon */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Upload Favicon
@@ -143,28 +167,38 @@ const CreatePlatform = () => {
                   type="file"
                   accept="image/*"
                   className="hidden"
+                  ref={faviconInputRef}
                   onChange={(e) => handleFileChange(e, "favicon")}
                 />
               </label>
               {faviconPreview && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <img
-                      src={faviconPreview}
-                      alt="Favicon Preview"
-                      className="mt-2 w-16 h-16 object-contain border rounded cursor-pointer hover:scale-105 transition"
-                    />
-                  </DialogTrigger>
-                  <DialogContent className="p-4 flex justify-center items-center">
-                    <div className="border-2 border-gray-300 p-2 rounded-lg bg-white max-h-full max-w-full flex justify-center items-center">
+                <div className="mt-2 flex items-center gap-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
                       <img
                         src={faviconPreview}
-                        alt="Favicon Large Preview"
-                        className="object-contain rounded-md"
+                        alt="Favicon Preview"
+                        className="w-16 h-16 object-contain border rounded cursor-pointer hover:scale-105 transition"
                       />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                    </DialogTrigger>
+                    <DialogContent className="p-4 flex justify-center items-center">
+                      <div className="border-2 border-gray-300 p-2 rounded-lg bg-white max-h-full max-w-full flex justify-center items-center">
+                        <img
+                          src={faviconPreview}
+                          alt="Favicon Large Preview"
+                          className="object-contain rounded-md"
+                        />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => removeFile("favicon")}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
               )}
             </div>
           </CardContent>
